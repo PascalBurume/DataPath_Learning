@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import useSWR from 'swr';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { NavSidebar } from '@/components/NavSidebar';
 import { SketchTopbar } from '@datapath/ui/src/primitives/SketchTopbar';
@@ -30,6 +30,7 @@ function LecturePageContent() {
   const { data } = useSWR<any>(lessonId ? `/api/lessons/${lessonId}` : null, fetcher);
   const [chatOpen, setChatOpen] = useState(false);
   const [view, setView] = useState<'lesson' | 'lab'>('lesson');
+  const loggedLessons = useRef(new Set<string>());
 
   useEffect(() => {
     if (!chatOpen) return;
@@ -52,11 +53,13 @@ function LecturePageContent() {
   }, [lessonId, view]);
 
   useEffect(() => {
-    if (!data?.lesson) return;
+    const id = data?.lesson?.id;
+    if (!id || loggedLessons.current.has(id)) return;
+    loggedLessons.current.add(id);
     fetch('/api/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kind: 'slide_view', moduleId: data.lesson.moduleId, lessonId: data.lesson.id }),
+      body: JSON.stringify({ kind: 'slide_view', moduleId: data.lesson.moduleId, lessonId: id }),
     }).catch(() => {});
   }, [data?.lesson?.id]);
 

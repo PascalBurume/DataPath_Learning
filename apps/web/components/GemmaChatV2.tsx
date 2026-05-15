@@ -155,7 +155,8 @@ export function GemmaChatV2({ context, aiOff, lessonRef, moduleId }: Props) {
         </span>
         {lessonRef && (
           <span className="sk-tiny" style={{ marginLeft: 'auto' }}>
-            logged to {lessonRef}
+            {/* lessonRef is a DB id like "m3-l1" — display it as "L3.1" */}
+            logged · {lessonRef.replace(/^m(\d+)-/, 'M$1/').replace(/-/g, '.')}
           </span>
         )}
       </div>
