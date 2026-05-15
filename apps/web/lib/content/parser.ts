@@ -305,6 +305,8 @@ const SPEC_TITLES: Record<string, { title: string; subtitle: string; datasets: s
   M9: { title: "Capstone Project", subtitle: "End-to-end pipeline; oral defence", datasets: ["student_choice.csv"] },
   M10: { title: "ML Bridge", subtitle: "From statistics to scikit-learn", datasets: ["housing_prices.csv"] },
   M11: { title: "Time Series Foundations", subtitle: "Trend, seasonality, basic forecasting", datasets: ["air_passengers.csv"] },
+  M12: { title: "Local LLM Mastery for Data Scientists", subtitle: "Ollama API, RAG, synthetic data at scale, prompt engineering, privacy", datasets: ["your_notebooks/", "your_csvs/"] },
+  M13: { title: "Agentic DS Workflows", subtitle: "ReAct agents, tool use, autonomous EDA pipelines, safety and verification", datasets: ["housing_prices.csv", "ecommerce_orders.csv"] },
 };
 
 export function parseModule(rootDir: string, moduleId: string, order: number): ParsedModule {
@@ -329,6 +331,6 @@ export function parseModule(rootDir: string, moduleId: string, order: number): P
 }
 
 export function parseAllModules(rootDir: string): ParsedModule[] {
-  const ids = Array.from({ length: 11 }, (_, i) => `M${i + 1}`);
+  const ids = Array.from({ length: 13 }, (_, i) => `M${i + 1}`);
   return ids.map((id, i) => parseModule(rootDir, id, i + 1));
 }

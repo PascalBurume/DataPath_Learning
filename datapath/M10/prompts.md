@@ -20,16 +20,27 @@ Show me the income-bucket pattern from Géron Ch2 p.55–65: bin median_income, 
 Leave the bin edges as TODO comments — I should justify them myself.
 ```
 
-## Template 3 — PIPELINE-DESIGN
+## Template 3 — PIPELINE-DESIGN (design a leak-free ML pipeline)
 ```
-PIPELINE-DESIGN: housing_prices.csv
-Numeric features: median_income, housing_median_age, total_rooms, total_bedrooms, population, households
-Categorical features: ocean_proximity
-Target: median_house_value (regression)
+PIPELINE-DESIGN:
+Features: [list your features and their types: numeric, categorical, text]
+Target: [target variable name and type: classification / regression]
+Task type: [binary classification / multiclass / regression]
+Known issues: [list any known data quality issues: missing values, high cardinality, etc.]
+Produce: (1) A sklearn Pipeline + ColumnTransformer skeleton with named steps.
+         (2) For EACH preprocessing step, explicitly mark it as FIT-ON-TRAIN-ONLY or STATELESS.
+         (3) Leave hyperparameters as TODO placeholders.
+         (4) Add a comment warning about any leakage risk you detect.
+```
+**Use for:** Starting a new ML modelling task with a correct, leak-free pipeline from the beginning
 
-Produce a Pipeline / ColumnTransformer skeleton with named steps.
-Mark every step that must be fit on TRAIN ONLY to avoid leakage.
-Do not pick the final estimator's hyperparameters — leave placeholders.
+**Example:**
+```
+PIPELINE-DESIGN:
+Features: age (numeric), income (numeric), job_title (categorical, high cardinality), has_children (boolean)
+Target: churn (binary: 0/1)
+Task type: binary classification
+Known issues: income has 8% missing values; job_title has 400 unique values
 ```
 
 ## Template 4 — EXPLAIN scaler choice

@@ -968,6 +968,28 @@ A well-powered study ($n = 200$ per group) finding $p = 0.31$ with 95% CI [−0.
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M5
+Hypothesis testing is packed with misinterpretations. Gemma 4n acts as a sanity checker for effect sizes and p-value interpretations — learners compute Cohen's d and write their interpretation, then ask AI to check whether they're conflating statistical significance with practical importance.
+
+The [AI-OFF] cells in M5 are intentionally numerous because the intuition for effect size and multiple comparisons must be built through independent reasoning.
+
+### What to use AI for in M5 (🤖 ai-assisted)
+- EFFECT-SIZE-CHECK: verify your Cohen's d calculation and interpretation
+- MISCONCEPTION-CHECK: check whether "p < 0.05 means it matters" is the right framing
+- Ask AI to explain the Bonferroni correction in plain language
+
+### What NOT to use AI for in M5 (⊘ ai-off)
+- Cohen's d function — must be implemented independently
+- Multiple comparisons cell — analysis must be done without AI
+- Assumption tests cell — reasoning must be done without AI
+
+### Approved prompt templates
+See `prompts.md` for EFFECT-SIZE-CHECK and MISCONCEPTION-CHECK templates.
+
+---
+
 ## New Lessons Integrated
 
 | ID | Lesson | Type | Cell type |

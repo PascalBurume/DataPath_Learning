@@ -48,3 +48,43 @@ MISCONCEPTION-CHECK: [choose one]
 - "3D charts help the audience understand the data better."
 Lesson: M8 — Data Visualisation
 ```
+
+---
+
+## Template 7 — CHART-NARRATE (write a chart narrative)
+```
+CHART-NARRATE: I have created a chart and need a professional narrative for my presentation.
+Chart type: [bar / line / scatter / heatmap / etc.]
+What I'm showing: [describe the data and the key comparison]
+Key finding: [what the chart reveals — the most important pattern]
+Audience: [who will see this]
+Write a 2-sentence narrative: sentence 1 = what the chart shows, sentence 2 = what the audience should do or think next.
+```
+**Use for:** Writing clear, concise chart captions for presentations and reports
+
+**Example:**
+```
+CHART-NARRATE:
+Chart type: grouped bar chart
+What I'm showing: survival rates by passenger class and gender on the Titanic
+Key finding: women in first and second class had much higher survival rates than men in any class
+Audience: general audience, non-technical
+```
+
+---
+
+## Template 8 — ALT-TEXT (write accessible alt-text for a chart)
+```
+ALT-TEXT: I need to write accessible alt-text for a data visualisation.
+Chart type: [type]
+What it shows: [describe the axes, the data, and the main pattern]
+Write alt-text that: (1) describes the chart type, (2) identifies the key trend or comparison, (3) states the key numerical finding where possible. Keep it under 150 characters.
+```
+**Use for:** Making your data visualisations accessible to screen reader users
+
+**Example:**
+```
+ALT-TEXT:
+Chart type: line chart
+What it shows: monthly revenue 2022-2024, with a visible drop in Q2 2023 (-23%) followed by recovery
+```

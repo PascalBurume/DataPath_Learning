@@ -50,3 +50,48 @@ My level: [Beginner / Developer]
 My DataFrame: [paste df.info() or df.dtypes output]
 Which columns should I cast, to what type, and how much memory will I save?
 ```
+
+---
+
+## Template 7 — SYNTHETIC-DATA (generate a synthetic dataset)
+```
+SYNTHETIC-DATA: I need synthetic data for testing my pipeline.
+Schema: {"column_name": dtype, ...}
+Constraints: [list specific value ranges and rules]
+Rows needed: [number]
+Purpose: [testing / augmentation / privacy protection]
+Return ONLY a JSON array with the exact schema. No explanation.
+After I receive it, I will validate it with pandera.
+```
+**Use for:** Generating synthetic test data for your cleaning and wrangling pipelines
+
+**Example:**
+```
+SYNTHETIC-DATA: I need customer survey responses for pipeline testing.
+Schema: {"respondent_id": int, "age": int, "satisfaction": int, "would_recommend": bool}
+Constraints: age 18-80, satisfaction 1-5, 30% would_recommend = True
+Rows needed: 50
+Purpose: testing my groupby aggregation pipeline
+Return ONLY a JSON array. No explanation.
+```
+
+---
+
+## Template 8 — AI-PAIR (pair-program a pandas transformation)
+```
+AI-PAIR: I need to write a pandas transformation and want a code skeleton.
+Task: [describe what the transformation should do]
+Dataset: [dataset name and relevant column names]
+My level: [Beginner / Developer]
+Give me a skeleton with blank sections marked [YOUR CODE HERE] — do NOT fill in the logic.
+I will complete the skeleton myself.
+```
+**Use for:** Getting a code structure without having the AI solve the problem for you
+
+**Example:**
+```
+AI-PAIR: I need to compute the monthly revenue per product category, then add a column showing each category's share of total monthly revenue.
+Dataset: ecommerce_orders.csv — columns: order_date, product_category, order_value
+My level: Developer
+Give me a skeleton with blanks — I will fill in the groupby and transform logic myself.
+```

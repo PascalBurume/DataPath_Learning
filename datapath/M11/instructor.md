@@ -915,6 +915,25 @@ Try these prompts:
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M11
+Time series analysis has subtle gotchas — timezone mismatches, DST transitions, and look-ahead bias in train/test splits are easy to miss. Gemma 4n can review windowing decisions and flag problems before they corrupt an analysis.
+
+### What to use AI for in M11 (🤖 ai-assisted)
+- TIME-WINDOW: design your windowing strategy — always ask AI to flag look-ahead bias and timezone issues
+- Ask AI to explain the difference between TimeSeriesSplit and random train_test_split
+- Ask AI to explain what a seasonal decomposition plot reveals
+
+### What NOT to use AI for in M11 (⊘ ai-off)
+- L11.5 Time-zone reasoning — must be worked through without AI
+- The chronological split implementation — first attempt must be without AI assistance
+
+### Approved prompt templates
+See `prompts.md` for the upgraded TIME-WINDOW template.
+
+---
+
 ## Common Misconceptions to Flag
 
 | Lesson | Misconception | Truth |

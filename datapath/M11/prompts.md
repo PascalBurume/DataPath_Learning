@@ -22,16 +22,29 @@ Show me 4 partial-string indexing examples:
 Leave the actual values as TODO so I fill them in for my dataset.
 ```
 
-## Template 3 — TIME-WINDOW
+## Template 3 — TIME-WINDOW (design a time-series windowing strategy)
 ```
-TIME-WINDOW: air_quality_daily.csv, daily frequency, business question = "is air quality improving year over year in this city?"
-
+TIME-WINDOW:
+Series description: [describe the time series: what it measures, frequency, and date range]
+Frequency: [daily / weekly / monthly / hourly]
+Business question: [what you want to forecast or analyse]
+Known patterns: [any known seasonality, trends, or anomalies]
 Propose:
- (a) resample frequency,
- (b) rolling window size,
- (c) mean / median / sum aggregation,
- with rationale for each.
-Flag any time-zone or DST consideration that applies to this series.
+  (a) The best resample frequency for this analysis (with rationale)
+  (b) The right rolling window size (with rationale)
+  (c) Whether to use mean / median / sum aggregation (with rationale)
+  (d) How to split train/test WITHOUT look-ahead bias (specify the cutoff date logic)
+  (e) Any time-zone or DST considerations to flag
+```
+**Use for:** Planning a time-series analysis before writing any code
+
+**Example:**
+```
+TIME-WINDOW:
+Series description: daily air quality index (PM2.5) for 2019-2024
+Frequency: daily
+Business question: identify seasonal patterns and forecast next month's average
+Known patterns: suspected higher pollution in winter months
 ```
 
 ## Template 4 — DEBUG-HINT resample error

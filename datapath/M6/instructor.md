@@ -13,6 +13,8 @@ By end of session, students can:
 4. Build a reusable `.pipe()` transformation chain
 5. Reduce DataFrame memory footprint using dtype optimisation
 6. Write a basic data validation schema with `pandera` (developer track)
+7. Use a local LLM to generate realistic synthetic tabular data and validate it with pandera
+8. Apply an AI pair-programming workflow to pandas transformations
 
 ---
 
@@ -28,6 +30,9 @@ By end of session, students can:
 | 1:05–1:15 | **L6.5** — dtype optimisation: memory before and after | Show 10× memory reduction demo |
 | 1:15–1:25 | **L6.7** — pandera schema validation (developer track) | Optional extension |
 | 1:25–1:30 | Oral checkpoint prep + preview M7 | |
+| NEW | **L6.6** — Synthetic data generation with Gemma 4n | Generate realistic datasets with a local model |
+| NEW | **L6.7** — AI pair-programming for wrangling | AI-assisted transformation workflow |
+| NEW | **L6.8** [AI-OFF] — Full wrangling pipeline ⊘ | Independent pipeline build |
 
 ---
 
@@ -1269,6 +1274,149 @@ Store schemas in a dedicated Python module (for example, `schemas/titanic.py`) s
 3. What is the difference between `coerce=True` and `coerce=False` in a `DataFrameSchema`? Give an example where silent coercion could mask a real data quality problem.
 4. Explain the "schema as documentation" principle. How does a pandera schema provide more value than a code comment describing the expected column types?
 5. You have a pipeline that runs daily on new data batches. Describe how you would integrate pandera validation so that (a) failed batches raise an alert, (b) the failure report is logged to a file, and (c) valid records are processed while invalid records are quarantined for manual review.
+
+### L6.6 — Synthetic data generation with Gemma 4n `[M6 new]`
+
+#### Why synthetic data changes the learning game
+Synthetic data gives students a safe way to practise realistic wrangling without depending on sensitive or hard-to-share source tables. That matters for privacy because the workflow can feel authentic without exposing personal records, regulated attributes, or institution-specific business data. For a course that wants learners to build good habits early, that is a powerful unlock.
+
+It also supports augmentation. A learner can generate a small batch of rows to test a cleaning function, a validation rule, or a plotting workflow before the real dataset is fully ready. That shortens the feedback loop because the student can test the pipeline structure immediately instead of waiting for the perfect CSV.
+
+Most importantly, this is the first moment in the course where AI becomes an obviously productive tool rather than only a tutor. The model is not just explaining concepts; it is helping create useful raw material for analysis. That shift is pedagogically valuable because it shows students how AI can accelerate real analytical work while still requiring verification and judgment.
+
+#### Schema-controlled generation
+Synthetic generation works best when the prompt is structured like a contract. Instead of saying “make me some e-commerce data,” the student should specify the exact columns, data types, acceptable ranges, and any business constraints the rows must satisfy. That reduces ambiguity and makes it easier to parse the response directly into pandas.
+
+The more explicit the schema, the easier the downstream validation. If the model is told to return a JSON array with `order_id`, `customer_age`, `product_category`, `order_value`, `days_to_delivery`, and `returned`, then both the human reviewer and the pandera schema know what to expect. Structured prompting does not remove hallucination risk, but it narrows the space in which hallucinations can occur.
+
+#### Generating the data
+```python
+import requests, json, pandas as pd
+
+def ask_gemma(prompt: str, model: str = "gemma4n") -> str:
+    r = requests.post(
+        "http://localhost:11434/api/chat",
+        json={"model": model, "messages": [{"role": "user", "content": prompt}], "stream": False}
+    )
+    return r.json()["message"]["content"]
+
+schema_prompt = """
+Generate 20 rows of realistic e-commerce order data as a JSON array.
+Each row: {"order_id": int, "customer_age": int, "product_category": str,
+           "order_value": float, "days_to_delivery": int, "returned": bool}
+Constraints: age 18-75, value 5.00-500.00, delivery 1-14 days.
+Return ONLY the JSON array, no explanation.
+"""
+
+raw = ask_gemma(schema_prompt)
+df = pd.DataFrame(json.loads(raw))
+print(df.dtypes)
+df.describe()
+```
+
+This pattern is intentionally compact: define the schema in the prompt, get the raw text back, parse it as JSON, and immediately inspect the resulting DataFrame. Students should notice that the model call is only the start of the workflow; the real analytical work begins when they inspect whether the returned data matches the contract.
+
+#### Validating synthetic data (the [AI-VERIFY] step)
+Synthetic data always carries hallucination risk. A model may ignore a range constraint, emit a string where a number was expected, produce duplicate identifiers, or subtly distort the balance of categories. That is why generation must always be followed by an [AI-VERIFY] step rather than being treated as trustworthy by default.
+
+Pandera gives that verification step teeth because it turns expectations into code. The learner can assert that `customer_age` is between 18 and 75, `order_value` is non-negative, `days_to_delivery` stays within 1–14, and `order_id` is unique. If any row breaks the contract, the schema should fail loudly and push the student back to either fixing the prompt or rejecting the generated batch.
+
+Validation should also include a light distribution check against real data when available. Passing a schema does not guarantee realism: the averages may be implausible, the spread may be too narrow, or the category mix may look suspiciously uniform. Synthetic data is useful for prototyping and testing, but its job is to simulate enough structure to exercise the pipeline, not to replace careful understanding of real-world distributions.
+
+#### What synthetic data cannot replace
+Synthetic data cannot fully reproduce correlational structure unless the generation process is explicitly designed to preserve it. Even when the rows look plausible one by one, the joint relationships among features may be simplified, flattened, or accidentally exaggerated. That matters because many analytical questions depend more on relationships than on individual columns.
+
+It also struggles with rare events, temporal patterns, and regulatory requirements. A locally generated sample is excellent for testing joins, schema checks, and transformation code, but it should not be treated as evidence about the real world. Students should learn to see synthetic data as a scaffolding tool: powerful for iteration, limited for inference.
+
+---
+
+### L6.7 — AI pair-programming for wrangling `[M6 new]`
+
+#### The AI pair-programming workflow
+AI pair-programming works best when the human keeps ownership of the task definition and review loop. The learner describes the transformation goal, asks the model for a skeleton, and then decides what logic belongs in each blank. That keeps the student focused on reasoning while still benefiting from faster setup.
+
+The key principle is that AI proposes structure, not authority. A good workflow is: define the task clearly, request a scaffold with blanks, complete the logic yourself, run the code, and review the output line by line. In other words, the human is still the engineer; the model is only a fast drafting partner.
+
+#### When to use AI-pair vs AI-OFF
+AI-pair is appropriate when the main challenge is boilerplate rather than conceptual understanding. Reusable function structure, argument names, docstring placement, and the rough shape of a pandas pipeline are all good candidates because they reduce setup friction without removing the learner's responsibility to supply the real logic.
+
+AI-OFF is required when the task is intended to prove understanding without assistance. If the student must demonstrate they can reason through a merge contract, choose an aggregation strategy, or justify a cleaning decision on their own, then pair-programming would undermine the purpose of the exercise. The decision boundary is simple: use AI when scaffolding helps you practise, not when it helps you avoid practising.
+
+#### Pair-programming a groupby transformation
+A strong pair-programming prompt for wrangling asks for a skeleton with explicit blanks:
+
+```text
+AI-PAIR: I need to compute monthly revenue per product category, then add a category share-of-month column.
+Dataset: ecommerce_orders.csv — columns: order_date, product_category, order_value
+My level: Developer
+Give me a skeleton with blank sections marked [YOUR CODE HERE] — do NOT fill in the logic.
+```
+
+The AI-produced scaffold might look like this:
+
+```python
+orders = pd.read_csv("ecommerce_orders.csv")
+orders["order_month"] = [YOUR CODE HERE]
+
+monthly = (
+    orders
+    .groupby(["order_month", "product_category"], as_index=False)
+    .agg(monthly_revenue=("order_value", [YOUR CODE HERE]))
+)
+
+monthly["share_of_month"] = [YOUR CODE HERE]
+monthly.head()
+```
+
+The human then fills the blanks, checks the grouping level, and verifies that the share column sums to 1.0 within each month. That last verification step is what turns pair-programming into learning rather than copy-paste.
+
+#### Pair-programming a merge with validation
+The same pattern helps with joins, where structure matters but the correctness check matters more:
+
+```python
+orders = pd.read_csv("ecommerce_orders.csv")
+customers = pd.read_csv("customers.csv")
+
+merged = orders.merge(
+    customers,
+    on="customer_id",
+    how="left",
+    validate="[YOUR CODE HERE]"
+)
+
+assert len(merged) == [YOUR CODE HERE]
+merged.head()
+```
+
+Here the AI can provide the skeleton, but the human must decide the correct `validate=` mode and the right row-count assertion based on the intended join contract. That habit is exactly what we want to cultivate: AI may speed up the draft, but only the learner can justify the semantics.
+
+#### Building the habit: always verify AI-generated code
+AI-generated code should be treated like code from a hurried teammate: useful, often close, never exempt from review. Students should run it, read it, inspect intermediate outputs, and test obvious edge cases before trusting the final result. If they cannot explain what each line is doing, they are not done reviewing.
+
+The healthiest mindset is to assume that every generated snippet needs human validation. That means checking row counts after merges, checking output shapes after `groupby()`, checking null behaviour after fills, and checking whether the code actually matches the stated task. Verification is not an optional cleanup step; it is the central discipline that makes AI pair-programming safe.
+
+---
+
+### L6.8 — Full wrangling pipeline `[AI-OFF]` `[M6 new]`
+
+This lesson is [AI-OFF]. Do not mark anything else with AI-OFF in M6.
+
+#### The AI-OFF challenge
+This challenge comes after the AI pair-programming lesson on purpose. By this point, students have seen how AI can help with scaffolding and how validation protects them from blindly trusting generated code. The next step is to prove that the core wrangling workflow now lives in the learner's own hands.
+
+The AI-OFF requirement creates a clean assessment moment. Students must make the decisions themselves, sequence the steps themselves, and defend the result themselves. That makes the final pipeline a more reliable signal of understanding than a polished notebook whose hardest parts may have been delegated.
+
+#### Pipeline requirements
+The pipeline must include four concrete elements: a justified missing-data strategy, at least one `groupby()` plus aggregation, a merge that uses `validate=` explicitly, and a pandera schema check on the final output. It should also use `.pipe()` to make the transformation chain readable rather than collapsing the whole workflow into one monolithic cell.
+
+A strong submission will show not only that these components exist, but that they are connected coherently. Missingness handling should happen before downstream calculations depend on those values, merge validation should match the intended table relationship, and the schema should describe the cleaned result rather than the raw input.
+
+#### Assessment criteria
+The first question is whether the pipeline runs end-to-end from a clean kernel without manual patching. If it breaks halfway through, the student has not yet produced a reliable analytical artifact.
+
+The second question is whether `.pipe()` is being used to express meaningful stages instead of wrapping everything in anonymous lambdas. Good `.pipe()` usage makes the workflow easier to read, test, and explain at the oral checkpoint.
+
+The third question is whether the pandera checks are specific enough to catch real problems. A weak schema only restates column names and generic dtypes; a strong schema encodes ranges, nullability, uniqueness, and category constraints that reflect the actual logic of the cleaned dataset.
 
 ---
 

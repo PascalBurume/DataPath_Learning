@@ -10,7 +10,7 @@ By end of session, students can:
 2. Map the data-to-insight pipeline (Question → Collection → Cleaning → Analysis → Modeling → Communication)
 3. Explain the difference between correlation and causation with an example
 4. State three ethical responsibilities of a data scientist
-5. Describe what reproducibility means and why it matters from day 1
+5. Describe what reproducibility means and why it matters from day 1, and set up a working Ollama + Gemma 4n local AI environment and run a structured first prompt
 
 ---
 
@@ -24,8 +24,7 @@ By end of session, students can:
 | 0:40–0:50 | **L1.5** [AI-OFF] — Correlation vs causation discussion | Ice cream / drowning example; students propose 2 more |
 | 0:50–1:05 | **L1.6** — Data ethics primer: bias, privacy, fairness | Show the COMPAS recidivism case briefly |
 | 1:05–1:15 | **L1.4** — Reproducibility: what it is, why it matters | Demo: run a notebook with no seed; run again; results differ |
-| 1:15–1:25 | Intro to AI policy: prompts.md, AI_USE.md, [AI-OFF] cells | Walk through the disclosure form |
-| 1:25–1:30 | Q&A + preview of M2 | |
+| 1:15–1:30 | **L1.7** — Your local AI workspace (Ollama + Gemma 4n setup) | New capstone activity |
 
 ---
 
@@ -548,6 +547,116 @@ The lesson also prepares students for later modelling work by establishing that 
 Ask students to choose a familiar domain—hiring, lending, education, health, or content recommendation—and identify one ethical risk at each stage of the data pipeline. This helps them see that ethical reflection is continuous rather than reserved for deployment day.
 
 A second prompt is to ask what evidence they would want before trusting an AI system used in a high-stakes setting. Strong answers should mention subgroup performance, privacy safeguards, human oversight, clear objectives, and a process for contesting harmful decisions.
+
+### L1.7 — Your local AI workspace `[M1 new]`
+
+#### Why offline LLMs change the learning dynamic
+Offline LLMs change the emotional texture of practice because they remove the fear of “spending” every question. When the model is running locally, the marginal cost of experimentation is effectively zero. Students can retry prompts, compare wording, and test ideas without feeling that curiosity must be rationed.
+
+The privacy shift matters just as much. A learner can inspect code, draft ideas, and ask beginner questions without sending their working context to a cloud service. That is especially valuable in an educational environment where unfinished thinking, messy notes, and exploratory notebooks are part of the learning process rather than something to hide.
+
+There is also a practical reliability advantage: local models keep working when the internet is weak, the lab network is congested, or the learner is literally on a plane. That makes AI support feel like part of the workspace rather than a remote dependency. In DataPath, the goal is to make AI assistance available as a durable study tool while still teaching students when not to use it.
+
+#### The local AI stack
+The local AI stack in this course is intentionally simple: the learner writes a prompt, Ollama exposes a local HTTP API on `localhost:11434`, and Gemma 4n generates the response. That architecture matters because students are not using a mysterious black box; they are interacting with a local service they can inspect, test, and call from both the command line and Python.
+
+```mermaid
+graph LR
+    A[Learner] --> B[Ollama API<br/>localhost:11434]
+    B --> C[Gemma 4n model]
+    C --> B
+    B --> A
+```
+
+#### Setting up Ollama
+Start by installing Ollama from the official site. Go to [ollama.ai](https://ollama.ai), download the installer for your operating system, and complete the normal installation steps. On macOS this usually means dragging the app into Applications; on Linux it may mean running the install script; on Windows it means using the installer package.
+
+Once installation finishes, open a terminal and verify that the command-line tool is available. If `ollama` is on your path, the following commands should run successfully:
+
+```bash
+ollama --version
+ollama list
+```
+
+`ollama list` is the most important first check because it proves the local service is reachable and shows which models are already present on your machine. On a fresh install, you may see an empty list at first. That is normal; it simply means you have not pulled a model yet.
+
+#### Pulling Gemma 4n
+Next, download the course model:
+
+```bash
+ollama pull gemma4n
+```
+
+This command tells Ollama to fetch the Gemma 4n model weights and register them locally so future prompts can run without another download. The first pull can take a while because you are downloading the full model artifact; later calls are fast because inference happens from the local copy.
+
+After the pull completes, run `ollama list` again and confirm that `gemma4n` appears in the output. That verification step matters because many first-run issues are simply “the service is installed, but the model has not been pulled yet.”
+
+#### Your first structured prompt
+For the first interaction, use a structured template instead of an improvised question. The M1 EXPLAIN template gives the model a clear task, your level, and the exact source of confusion, which usually produces a more useful answer than a one-line prompt.
+
+```text
+EXPLAIN: what is overfitting?
+My level: Beginner
+Context: I am in M1 of the DataPath course and testing my local AI workspace.
+What I already know: Models learn from examples.
+What is confusing me: Why does doing better on training data sometimes mean doing worse in the real world?
+```
+
+You can send that prompt directly to Ollama's local chat endpoint:
+
+```bash
+curl http://localhost:11434/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gemma4n",
+    "messages": [
+      {
+        "role": "user",
+        "content": "EXPLAIN: what is overfitting?\nMy level: Beginner\nContext: I am in M1 of the DataPath course and testing my local AI workspace.\nWhat I already know: Models learn from examples.\nWhat is confusing me: Why does doing better on training data sometimes mean doing worse in the real world?"
+      }
+    ],
+    "stream": false
+  }'
+```
+
+A cleaner version is often easier to read if you build the JSON from Python, but the key point is simple: you are sending a normal HTTP request to `localhost:11434/api/chat`, and the response comes from your own machine.
+
+#### Calling Ollama from Python
+Python access matters because later modules will treat the local model as part of a real analytical workflow rather than a separate chat window. The example below is intentionally minimal: one function, one POST request, one returned string.
+
+```python
+import requests, json
+
+def ask_gemma(prompt: str, model: str = "gemma4n", stream: bool = False) -> str:
+    """Send a prompt to the local Gemma model via Ollama API."""
+    r = requests.post(
+        "http://localhost:11434/api/chat",
+        json={
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": stream
+        },
+        timeout=120
+    )
+    r.raise_for_status()
+    return r.json()["message"]["content"]
+
+# Test it
+response = ask_gemma("Explain overfitting in 2 sentences for a beginner.")
+print(response)
+```
+
+The workflow is straightforward: `requests.post()` sends the payload, `raise_for_status()` surfaces connection or API errors immediately, and the final line extracts the assistant message from the JSON response. Students should notice that the model call is just another local API interaction, which makes it easier to debug and reuse.
+
+#### The AI-OFF contract
+DataPath includes AI-OFF cells because learning is not the same thing as generating output. Some tasks are designed to reveal whether the student can reason independently, make a judgment call, or explain a concept in their own words. If AI is allowed everywhere, it becomes too easy to mistake borrowed fluency for genuine understanding.
+
+The contract is therefore constructive rather than punitive. AI is available for setup help, explanation, scaffolding, and debugging within approved boundaries, but some cells intentionally block it so the learner builds the right internal habits from day 1. Those boundaries make the later oral checkpoints more meaningful because the student can separate what they did with assistance from what they can do alone.
+
+Students should treat AI-OFF as part of the pedagogy, not as a technical inconvenience. The goal is to become the kind of analyst who can use strong tools responsibly, disclose that use honestly, and still demonstrate independent competence when the task requires it.
+
+---
+
 ## New Lessons Integrated (from lesson library)
 
 | ID | Lesson | Type |
@@ -555,6 +664,7 @@ A second prompt is to ask what evidence they would want before trusting an AI sy
 | L1.4 | Reproducibility as first-class concern | Expert addition |
 | L1.5 | Correlation vs causation — anchor early | Expert addition |
 | L1.6 | Responsible AI & data ethics primer | Expert addition |
+| L1.7 | Local AI workspace with Ollama + Gemma 4n | New capstone activity |
 
 ---
 

@@ -49,3 +49,44 @@ REVIEW: I am preparing for my oral defense. Ask me the 3 hardest questions from 
 My project: [1-sentence description]
 Start with: "What are the three main limitations of your analysis?"
 ```
+
+---
+
+## Template 7 — CRISP-FRAME (CRISP-DM problem framing)
+```
+CRISP-FRAME: I am starting my M9 capstone project.
+My dataset: [name and brief description]
+My initial question: [what you want to explore]
+My audience: [who will use this analysis]
+Possible decision: [what decision might this support?]
+Help me frame this as a CRISP-DM Business Understanding question — ask me questions to sharpen my framing if it is too vague.
+```
+**Use for:** Sharpening your capstone project question before you open the dataset
+
+---
+
+## Template 8 — AI-DISCLOSURE (log an AI interaction)
+```
+AI-DISCLOSURE: I used AI assistance in my capstone. Help me write the disclosure entry.
+Stage: [Business Understanding / Data Understanding / Data Preparation / Modeling / Evaluation]
+What I asked the AI: [brief description of the prompt]
+What the AI produced: [brief description of the output]
+What I accepted without change: [what you used directly]
+What I modified: [what you changed and why]
+What I rejected: [what you didn't use and why]
+Draft a disclosure entry for my AI_USE.md in 3-4 sentences.
+```
+**Use for:** Writing clear, honest AI disclosure entries throughout your project
+
+---
+
+## Template 9 — ORAL-PREP (oral defense preparation)
+```
+ORAL-PREP: I am preparing for my M9 oral defense.
+My project: [1-sentence description]
+My key finding: [state it in one sentence]
+My AI use: [brief summary of how you used AI in the project]
+Ask me the 3 hardest questions from the M9 oral defense question list, one at a time.
+Start with: "Walk me through the most important decision you made in this project."
+```
+**Use for:** Practising your oral defense before the real thing

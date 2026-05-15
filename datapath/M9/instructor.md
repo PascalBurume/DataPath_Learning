@@ -1,5 +1,5 @@
 # M9 — Instructor Guide: Final Project & Oral Defense
-> 90-minute launch session + independent project time | Dataset: student's choice
+> 90-minute launch session + independent project time | Dataset: student's choice | AI-augmented CRISP-DM | Every AI use must be disclosed
 > **Major oral checkpoint — full defense**
 
 ---
@@ -12,6 +12,7 @@ By end of session (launch), students can:
 3. Apply the Pyramid Principle to structure their final presentation
 4. Write a genuine limitations section (not a formality)
 5. Package their project as a reproducible, portfolio-ready GitHub artifact
+6. Document every AI-assisted step in AI_USE.md with the AI-DISCLOSURE template
 
 ---
 
@@ -29,6 +30,12 @@ By end of session (launch), students can:
 
 ### Part B — Independent work (scheduled over following days)
 Students work independently. AI use follows `prompts.md` templates. All interactions logged in `AI_USE.md`.
+
+**AI use during independent work:**
+- Students MAY use Gemma 4n at any stage using the approved templates from `prompts.md`
+- Every AI interaction must be logged in `AI_USE.md` using the AI-DISCLOSURE template
+- The limitations section (L9.6) remains `[AI-OFF]` — written by the student alone
+- The oral defense requires the student to explain every AI-assisted decision
 
 ### Part C — Oral defense (final session, 15 min per student)
 Structured questions below.
@@ -744,6 +751,49 @@ Try these prompts:
 5. Rewrite a tool-focused project description so that it follows a clear story arc.
 
 Strong answers will connect presentation choices back to reader trust and career usefulness. That is the core of the portfolio mindset: build something that speaks for you when you are not in the room.
+
+### L9.9 — AI-disclosure in the capstone `[M9 new]`
+
+#### The disclosure requirement
+Every AI interaction in the capstone must be disclosed because the final project is not only a technical artifact; it is also a claim about the student's process. Readers, instructors, and oral defense panels need to know where AI support entered the workflow so they can evaluate the work fairly and understand which decisions remained human-led.
+
+Disclosure also builds trust with the audience. A capstone that openly explains where Gemma 4n helped with framing, scaffolding, or revision feels more credible than one that treats AI use as an invisible backstage detail. Transparency does not weaken the project; it shows that the student understands professional accountability.
+
+It also protects the student from accusations of dishonesty. When AI use is logged clearly, the student can point to a documented record of what was asked, what was returned, what was accepted, and what was changed or rejected. That record turns a vague suspicion into a concrete, defensible workflow.
+
+#### The AI-DISCLOSURE template
+Students should use the disclosure template immediately after each meaningful AI interaction so the details are still fresh. A good entry names the CRISP-DM stage, summarises the prompt, describes the output, and distinguishes between what was used directly, what was modified, and what was discarded.
+
+```text
+AI-DISCLOSURE: I used AI assistance in my capstone. Help me write the disclosure entry.
+Stage: [Business Understanding / Data Understanding / Data Preparation / Modeling / Evaluation]
+What I asked the AI: [brief description of the prompt]
+What the AI produced: [brief description of the output]
+What I accepted without change: [what you used directly]
+What I modified: [what you changed and why]
+What I rejected: [what you didn't use and why]
+Draft a disclosure entry for my AI_USE.md in 3-4 sentences.
+```
+
+In practice, the same template should look slightly different at each CRISP-DM stage. In Business Understanding, the entry may focus on question framing; in Data Preparation, it may document a scaffolded transformation; in Modeling, it may capture skeleton code or metric suggestions. The goal is not to produce identical entries, but to record the decision-relevant facts honestly.
+
+#### What AI may assist with vs what must be human-led
+| CRISP-DM stage | Expected role |
+|---|---|
+| Business Understanding | Human-led |
+| Data Understanding | AI may suggest, human validates |
+| Data Preparation | AI pair-programming permitted |
+| Modeling | AI may generate skeletons |
+| Evaluation | Human-led |
+| Limitations | AI-OFF |
+
+This table is a boundary-setting tool, not a loophole checklist. If AI suggests an idea in Data Understanding, the student still has to validate it with the actual data. If AI produces a modeling skeleton, the student still has to choose features, metrics, and interpretation deliberately.
+
+#### Oral defense: explaining your AI use
+Students should be ready to answer two hard questions: “Why did you use AI here?” and “What would have happened if you hadn't?” Good answers explain the role AI played in speeding up drafting or sharpening a question while making clear that the student still owned validation, judgment, and the final analytical choices.
+
+The strongest oral defense answers are concrete. Instead of saying “I used AI for coding,” a student should say something like, “I used Gemma 4n to scaffold a merge function, then I added `validate='m:1'`, checked the row count manually, and rejected one earlier suggestion because it changed the grain of the table.” That level of specificity shows control rather than dependence.
+
 ### Problem & data (3 min)
 1. "State your question and your key finding in one sentence each."
 2. "What is your baseline model performance, and does your analysis beat it?"

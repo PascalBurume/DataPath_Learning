@@ -68,8 +68,8 @@ async function main() {
   }
 
   // Demo cohort: anchor startDate 4 weeks before today so the dashboard
-  // shows "week 4 of 14" out of the box.
-  const TOTAL_WEEKS = 14;
+  // shows "week 4 of 16" out of the box.
+  const TOTAL_WEEKS = 16;
   const now = new Date();
   const cohortStart = new Date(now);
   cohortStart.setDate(now.getDate() - 28);
@@ -165,6 +165,24 @@ async function main() {
       durationMin: 15,
       mentor: "Priya",
       prepPrompt: "explain pipelines and why scaling-after-split matters",
+    },
+    {
+      moduleId: "M12",
+      title: "Local LLM Mastery — lab review",
+      kind: "lab",
+      dueAt: at(14, 3, 16),
+      durationMin: 30,
+      mentor: "Priya",
+      prepPrompt: "demo your local DS assistant: load a CSV, ask a question about it via RAG, show the answer",
+    },
+    {
+      moduleId: "M13",
+      title: "Agentic DS — final agent demo",
+      kind: "project",
+      dueAt: at(16, 5, 14),
+      durationMin: 20,
+      mentor: "Priya + cohort",
+      prepPrompt: "run your autonomous EDA agent live — explain each tool call it makes and verify its output",
     },
   ];
 

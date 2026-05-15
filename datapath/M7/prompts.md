@@ -44,3 +44,24 @@ Show me: how to compute VIF, what the thresholds mean, and what to do when VIF i
 SCAFFOLD: I want to create a pair plot for the top 5 features correlated with price in housing_prices.csv.
 Include: correlation filter to select top 5, seaborn pairplot with hue on a categorical variable, and formatting for readability.
 ```
+
+---
+
+## Template 7 — EDA-HYPOTHESIZE (generate testable hypotheses)
+```
+EDA-HYPOTHESIZE: I am starting EDA on a new dataset.
+Dataset description: [describe the columns, domain, and any known context]
+My question: [what I'm trying to understand]
+Generate 5 specific, testable hypotheses I should investigate.
+For each hypothesis, tell me: (a) what to plot, (b) what statistic to compute, (c) what a "yes" result would look like.
+Flag which hypotheses require domain knowledge to validate (things you can't answer from the data alone).
+```
+**Use for:** Getting a structured EDA plan before you start writing code
+
+**Example:**
+```
+EDA-HYPOTHESIZE:
+Dataset: titanic_clean.csv — passenger survival, demographics, ticket class
+My question: What factors were most associated with survival?
+Generate 5 testable hypotheses.
+```

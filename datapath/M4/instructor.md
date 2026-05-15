@@ -492,6 +492,25 @@ A second useful prompt is to present a time-series problem and ask whether rando
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M4
+Confidence interval interpretation is one of the most persistently misunderstood concepts in statistics. The classic error — "95% CI means 95% chance the true value is inside" — appears in textbooks, papers, and professional reports. Gemma 4n acts as a CI wording checker: learners write their CI interpretation, ask AI to verify it, and build the habit of checking before publishing.
+
+### What to use AI for in M4 (🤖 ai-assisted)
+- CI-REVIEW: paste your CI interpretation and ask AI to check the wording
+- EXPLAIN: ask AI to explain the CLT or sampling distributions with an analogy
+- Ask AI to explain the difference between confidence interval and prediction interval
+
+### What NOT to use AI for in M4 (⊘ ai-off)
+- CLT simulation loop — must be coded independently
+- CI written interpretation cell — first attempt must be without AI
+
+### Approved prompt templates
+See `prompts.md` for CI-REVIEW and EXPLAIN templates.
+
+---
+
 ## New Lessons Integrated
 
 | ID | Lesson | Type | Cell type |

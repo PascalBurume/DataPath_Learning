@@ -49,3 +49,26 @@ EDA-SUGGEST: I want to run hypothesis tests on students_scores.csv
 Planned tests: compare exam scores between groups (class, gender, study_hours_group)
 Suggest: 3 EDA steps I should complete before running any test, and why each matters.
 ```
+
+---
+
+## Template 7 — EFFECT-SIZE-CHECK (verify your effect size interpretation)
+```
+EFFECT-SIZE-CHECK: I computed an effect size and wrote an interpretation. Please check it.
+My Cohen's d value: [e.g., d = 0.42]
+My interpretation: [paste your written interpretation]
+Test context: [describe what you compared, e.g., "exam scores for students who used spaced repetition vs control group"]
+1. Is my Cohen's d calculation correct given [paste relevant code or numbers]?
+2. Is my interpretation correct? Am I conflating statistical significance with practical importance?
+```
+**Use for:** Building the habit of always checking effect size alongside p-values
+
+**Example:**
+```
+EFFECT-SIZE-CHECK:
+My Cohen's d value: d = 0.42
+My interpretation: "There is a medium-sized effect, which confirms the intervention was statistically significant."
+Test context: comparison of mean scores between control (n=50) and treatment (n=52) groups
+1. Is d = 0.42 correctly classified as "medium"?
+2. Is my interpretation correct?
+```

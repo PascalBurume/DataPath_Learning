@@ -1728,3 +1728,21 @@ global styling, and `savefig` for high-quality output.
    with a relevant chart from the air quality dataset and save the figure as a
    high-resolution PNG.
 
+---
+
+## Local AI Integration
+
+### How Gemma 4n supports M8
+Data visualisation is where AI can act as an accessibility and storytelling assistant. Gemma 4n can write alt-text for charts, draft chart narratives, and flag colour accessibility concerns — tasks that are often skipped under time pressure but matter for inclusive, professional work.
+
+### What to use AI for in M8 (🤖 ai-assisted)
+- CHART-NARRATE: describe your chart, get a 2-sentence narrative suitable for a presentation
+- ALT-TEXT: get accessible alt-text for any chart you create
+- Ask AI to review your chart for accessibility (colour blindness, contrast, font size)
+- Ask AI to suggest the right chart type for a specific comparison
+
+### What NOT to use AI for in M8 (⊘ ai-off)
+There are no [AI-OFF] cells in M8, but learners must write the first draft of every chart interpretation themselves before asking AI to improve it.
+
+### Approved prompt templates
+See `prompts.md` for CHART-NARRATE and ALT-TEXT templates.

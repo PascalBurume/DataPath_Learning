@@ -1094,3 +1094,24 @@ A mature visual EDA workflow moves fluidly between these chart families rather t
 4. You notice that the scatter plot of `bathrooms` vs `price` shows two separate point clouds. What explanatory variable would you add as colour encoding to investigate the separation?
 5. When would you choose a strip plot over a box plot? Name one scenario from the housing dataset where the individual-point view is more informative than the five-number summary.
 
+---
+
+## Local AI Integration
+
+### How Gemma 4n supports M7
+In EDA, the challenge is often knowing what to look for, not how to code it. Gemma 4n acts as an EDA hypothesis generator — learners describe their dataset and ask for hypotheses to test. This accelerates the exploration phase while keeping the actual analysis human-led.
+
+The [AI-OFF] cells in M7 (VIF analysis and EDA narrative) are intentionally blocked because both require domain reasoning that AI cannot substitute.
+
+### What to use AI for in M7 (🤖 ai-assisted)
+- EDA-HYPOTHESIZE: describe your dataset, get 5 testable hypotheses
+- EDA-SUGGEST: get recommendations for which distributions to check first
+- Ask AI to explain what a high VIF value means in plain language (before the AI-OFF cell)
+- Ask AI to review your feature engineering decisions
+
+### What NOT to use AI for in M7 (⊘ ai-off)
+- VIF analysis cell — must be reasoned about independently
+- EDA narrative cell — the story must be written by the learner
+
+### Approved prompt templates
+See `prompts.md` for EDA-HYPOTHESIZE and EDA-SUGGEST templates.

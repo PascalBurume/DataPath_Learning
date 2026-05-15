@@ -46,3 +46,23 @@ SCAFFOLD: I need to split students_scores.csv into train/test sets, stratified b
 Grade bands: Fail (0–40), Pass (40–60), Merit (60–75), Distinction (75–90), High Distinction (90–100)
 Give me a code skeleton using sklearn's StratifiedShuffleSplit with the strata verification step included.
 ```
+
+---
+
+## Template 7 — CI-REVIEW (check your confidence interval wording)
+```
+CI-REVIEW: I have written an interpretation of a confidence interval. Please check the wording.
+My interpretation: [paste your written interpretation]
+The CI: [e.g., 95% CI: (42.1, 51.3)]
+Parameter: [e.g., mean exam score for all students]
+Tell me if the wording is technically correct. If not, give me the correct phrasing.
+```
+**Use for:** Avoiding the most common CI misconception ("95% probability the true value is inside")
+
+**Example:**
+```
+CI-REVIEW: "There is a 95% probability that the true mean is between 42.1 and 51.3."
+The CI: 95% CI: (42.1, 51.3)
+Parameter: mean exam score
+Is this correct?
+```

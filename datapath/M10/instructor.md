@@ -917,6 +917,25 @@ Encourage answers that mention the full pipeline, metadata, and the need to veri
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M10
+ML pipelines are architecturally complex — the order of operations (fit vs transform, train vs test) is where most learners make mistakes. Gemma 4n can generate pipeline skeletons, but it must be told explicitly to flag every preprocessing step as FIT-ON-TRAIN-ONLY or STATELESS. This builds the habit of asking the leakage question before writing the first line of code.
+
+### What to use AI for in M10 (🤖 ai-assisted)
+- PIPELINE-DESIGN: get a pipeline skeleton for your feature set — always request leakage annotations
+- Ask AI to explain what ColumnTransformer does and why named steps matter
+- Ask AI to review your pipeline for potential data leakage
+
+### What NOT to use AI for in M10 (⊘ ai-off)
+- L10.4 Pipeline/ColumnTransformer assembly — must be built independently
+- The leakage identification exercise — must be reasoned about without AI
+
+### Approved prompt templates
+See `prompts.md` for the upgraded PIPELINE-DESIGN template.
+
+---
+
 ## Common Misconceptions to Flag
 
 | Lesson | Misconception | Truth |

@@ -532,6 +532,29 @@ Try answering them while looking at your own latest commit. The exercise is most
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M2
+In M2, Gemma 4n acts as an AI pair programmer for the first time. Learners are writing their first real pandas code and documenting their CRISP-DM methodology. AI helps them understand code they wrote and debug errors — but the code must be theirs first.
+
+The key skill to build here is the **ask-then-verify** habit: write your code, run it, encounter an issue or want to understand it better, then ask AI for an explanation or hint. Never ask AI to write the code from scratch at this stage.
+
+### What to use AI for in M2 (🤖 ai-assisted)
+- CODE-EXPLAIN: paste a code cell you wrote and ask AI to explain each line
+- DEBUG-HINT: paste an error message and ask for a directional hint (not the fix)
+- PAIR-PROGRAM: ask for a code skeleton for a data loading task (fill in the blanks yourself)
+- Asking AI to explain what a specific CRISP-DM phase means in the context of your dataset
+
+### What NOT to use AI for in M2 (⊘ ai-off)
+There are no [AI-OFF] cells in M2, but the following should be done independently before asking AI:
+- Writing your CRISP-DM documentation (document yourself, then ask AI to review)
+- Making decisions about which CRISP-DM phase your work belongs to
+
+### Approved prompt templates for this module
+See `prompts.md` for CODE-EXPLAIN, PAIR-PROGRAM, and DEBUG-HINT templates. Use these in order: attempt first, then ask for hints, then ask for explanation.
+
+---
+
 ## New Lessons Integrated
 
 | ID | Lesson | Type |

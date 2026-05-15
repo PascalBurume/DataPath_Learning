@@ -49,3 +49,23 @@ My level: [Beginner / Developer]
 My data: df['exam_score'].skew() = [paste your value]
 Tell me: what does this number mean in plain English, and which measure of centre should I use?
 ```
+
+---
+
+## Template 7 — STATS-VERIFY (check your interpretation)
+```
+STATS-VERIFY: I have written an interpretation of a statistical result. Please check if it is correct.
+My interpretation: [paste your written interpretation here]
+The actual numbers: [paste the relevant statistics]
+Lesson context: M3 — [specific concept being tested]
+Tell me if I'm correct. If not, explain the correct interpretation in 2-3 sentences.
+```
+**Use for:** Catching misconceptions before they become ingrained habits
+
+**Example:**
+```
+STATS-VERIFY: My interpretation: "The mean score of 72 tells us that most students scored around 72."
+The actual numbers: mean=72, median=65, std=18
+Lesson context: M3 — mean vs median for skewed distributions
+Tell me if this is correct.
+```

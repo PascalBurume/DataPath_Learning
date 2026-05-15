@@ -45,3 +45,44 @@ JupyterLab version: 4
 OS: [Windows / macOS / Linux]
 Give me a directional hint, not the full fix.
 ```
+
+---
+
+## Template 7 — CODE-EXPLAIN (understand your own code)
+```
+CODE-EXPLAIN: [paste your code cell here]
+Context: M2 — [brief description of what the code is supposed to do]
+My level: [Beginner / Developer]
+Explain each line in plain English. Point out anything that could break on a different dataset.
+```
+**Use for:** Understanding code you wrote but aren't sure about — builds code literacy
+
+**Example:**
+```
+CODE-EXPLAIN:
+df = pd.read_csv('world_population.csv')
+df = df.dropna(subset=['population_2020'])
+df['growth_rate'] = (df['population_2020'] - df['population_2010']) / df['population_2010']
+
+Context: M2 — I'm computing population growth rate for EDA
+My level: Beginner
+```
+
+---
+
+## Template 8 — PAIR-PROGRAM (code skeleton for data loading)
+```
+PAIR-PROGRAM: I need to write code to [describe the data loading or inspection task].
+Dataset: world_population.csv
+Give me a skeleton with [YOUR CODE HERE] blanks. Do NOT fill in the logic — I will do that.
+My level: [Beginner / Developer]
+```
+**Use for:** Getting a code structure without having the solution handed to you
+
+**Example:**
+```
+PAIR-PROGRAM: I need to load world_population.csv, check for missing values in each column, and create a summary table showing missingness percentage by column.
+Dataset: world_population.csv
+Give me a skeleton with blanks.
+My level: Beginner
+```

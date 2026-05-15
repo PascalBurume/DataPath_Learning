@@ -508,6 +508,29 @@ Try these prompts: 1) Find one flagged observation and explain whether it should
 
 ---
 
+## Local AI Integration
+
+### How Gemma 4n supports M3
+Descriptive statistics is where learners first encounter the gap between "knowing a formula" and "understanding what it means." Gemma 4n serves as a misconception checker — learners write their interpretation of a statistical result (mean, median, standard deviation, skewness), then ask AI to verify whether the interpretation is correct.
+
+Critically, M3 contains two [AI-OFF] cells: the Anscombe's Quartet analysis and the CV interpretation. These are intentionally blocked because they require the learner to develop their own statistical intuition. AI can help before and after these cells — but never during.
+
+### What to use AI for in M3 (🤖 ai-assisted)
+- STATS-VERIFY: paste your interpretation of a mean, median, or standard deviation and ask AI to check it
+- MISCONCEPTION-CHECK: test whether your understanding of a concept is correct before submitting
+- EXPLAIN: ask AI to explain a concept (e.g., "what does a high coefficient of variation mean?")
+- After completing an [AI-OFF] cell, ask AI to review your reasoning in retrospect
+
+### What NOT to use AI for in M3 (⊘ ai-off)
+- Lab 3.2: Anscombe's Quartet — analysis must be done independently
+- Quiz 3: Descriptive stats — the quiz is [AI-OFF]
+- CV interpretation cell — must be written without AI assistance first
+
+### Approved prompt templates
+See `prompts.md` for STATS-VERIFY, MISCONCEPTION-CHECK, and EXPLAIN templates.
+
+---
+
 ## New Lessons Integrated
 
 | ID | Lesson | Type | Cell type |

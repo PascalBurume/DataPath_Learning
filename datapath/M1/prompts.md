@@ -83,6 +83,44 @@ What am I missing?
 
 ---
 
+## Template 7 — OLLAMA-VERIFY (setup check)
+```
+OLLAMA-VERIFY: [paste the output of `ollama list` here]
+I have just installed Ollama and pulled a model.
+Is my setup correct? What model should I be using for this course?
+Is there anything I should check before my first prompt?
+```
+**Use for:** Verifying your Ollama setup at the start of M1 L1.7
+
+**Example:**
+```
+OLLAMA-VERIFY:
+NAME            ID              SIZE    MODIFIED
+gemma4n:latest  abc123...       5.0 GB  2 hours ago
+
+I see one model. Is this correct for the DataPath course?
+```
+
+---
+
+## Template 8 — FIRST-PROMPT (guided first interaction)
+```
+FIRST-PROMPT: [concept you want explained]
+My level: [Beginner / Developer]
+Context: I am doing my first ever local AI interaction in M1 L1.7
+This is my first time calling a local model — please respond clearly and show me you're working.
+```
+**Use for:** Your very first interaction with Gemma 4n — builds confidence that the setup works
+
+**Example:**
+```
+FIRST-PROMPT: What is the data-to-insight pipeline?
+My level: Beginner
+Context: M1 L1.7 — my first ever local AI interaction
+```
+
+---
+
 ## Disclosure reminder
 After each Gemma session, add an entry to `AI_USE.md`:
 ```markdown
