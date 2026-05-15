@@ -187,6 +187,8 @@ model PromptLog {
   model       String   @default("gemma4:e2b")
   rating      Int?
   flagged     Boolean  @default(false)
+  decision    String?
+  verified    Boolean  @default(false)
   createdAt   DateTime @default(now())
   @@index([userId, createdAt])
 }
@@ -198,6 +200,7 @@ model Disclosure {
   moduleId    String
   body        String
   promptIds   String
+  reflection  String?
   createdAt   DateTime @default(now())
   @@index([userId, moduleId])
 }

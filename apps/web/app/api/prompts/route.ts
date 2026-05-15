@@ -31,7 +31,13 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   const log = await prisma.promptLog.create({
-    data: { userId: user.id, ...parsed.data, model: parsed.data.model ?? "gemma4:e2b" },
+    data: {
+      userId: user.id,
+      ...parsed.data,
+      model: parsed.data.model ?? "gemma4:e2b",
+      decision: "accept",
+      verified: false,
+    },
   });
   return NextResponse.json({ id: log.id });
 }

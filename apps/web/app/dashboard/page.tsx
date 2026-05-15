@@ -26,6 +26,7 @@ export default function DashboardPage() {
   const nextCheckpoint = data?.nextCheckpoint ?? null;
   const disclosureScore = data?.user?.disclosureScore ?? { passed: 0, total: 0 };
   const promptsLast7 = data?.promptsLast7 ?? 0;
+  const recentActivity: any[] = data?.recentActivity ?? [];
 
   const weekLabel = cohort ? `week ${cohort.week} of ${cohort.totalWeeks}` : '—';
   const cohortName = cohort?.name ?? '';
@@ -105,6 +106,65 @@ export default function DashboardPage() {
               <RhythmCalendar rhythm={rhythm} />
               <NextCheckpointCard checkpoint={nextCheckpoint} />
             </div>
+
+            {/* Recent activity */}
+            {recentActivity.length > 0 && (
+              <div className="sk-box" style={{ padding: 14 }}>
+                <div
+                  className="sk-tiny"
+                  style={{
+                    color: 'var(--ink-3)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    marginBottom: 8,
+                  }}
+                >
+                  recent activity
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                  {recentActivity.map((item: any) => {
+                    const icon =
+                      item.kind === 'prompt' ? '✦' :
+                      item.kind === 'disclosure' ? '✓' :
+                      item.kind === 'slide_view' ? '▸' :
+                      item.kind === 'lab_submit' ? '⌬' : '◉';
+                    const color =
+                      item.kind === 'prompt' ? 'var(--amber)' :
+                      item.kind === 'disclosure' ? 'var(--good)' : 'var(--ink-3)';
+                    const when = (() => {
+                      const diff = Date.now() - new Date(item.ts).getTime();
+                      const mins = Math.floor(diff / 60000);
+                      if (mins < 60) return `${mins}m ago`;
+                      const hrs = Math.floor(mins / 60);
+                      if (hrs < 24) return `${hrs}h ago`;
+                      return new Date(item.ts).toLocaleDateString([], { month: 'short', day: 'numeric' });
+                    })();
+                    return (
+                      <div
+                        key={item.id}
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '18px 1fr auto',
+                          alignItems: 'baseline',
+                          gap: 8,
+                          padding: '5px 0',
+                          borderBottom: '1px dashed var(--rule-soft)',
+                        }}
+                      >
+                        <span style={{ color, fontSize: 13 }}>{icon}</span>
+                        <div>
+                          <span style={{ fontSize: 12, color: 'var(--ink)' }}>{item.label}</span>
+                          {item.sub && (
+                            <span className="sk-tiny" style={{ marginLeft: 6 }}>{item.sub}</span>
+                          )}
+                        </div>
+                        <span className="sk-tiny" style={{ whiteSpace: 'nowrap' }}>{when}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

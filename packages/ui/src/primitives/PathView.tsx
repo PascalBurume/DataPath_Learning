@@ -71,7 +71,7 @@ export function PathView({ nodes, onNodeClick, height = 230 }: Props) {
   const showPathBendsNote = currentIdx >= 7;
 
   return (
-    <div style={{ width: '100%', overflowX: 'auto' }}>
+    <div style={{ width: '100%', overflowX: 'auto', outline: 'none', WebkitOverflowScrolling: 'touch' }}>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         width="100%"

@@ -15,8 +15,9 @@ export async function GET() {
 
 const Body = z.object({
   moduleId: z.string(),
-  body: z.string().min(10),
+  body: z.string().min(1),
   promptIds: z.array(z.string()).optional(),
+  reflection: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -30,6 +31,7 @@ export async function POST(req: Request) {
       moduleId: parsed.data.moduleId,
       body: parsed.data.body,
       promptIds: JSON.stringify(parsed.data.promptIds ?? []),
+      reflection: parsed.data.reflection ?? null,
     },
   });
   return NextResponse.json({ id: d.id });

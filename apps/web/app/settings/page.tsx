@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { NavSidebar } from '@/components/NavSidebar';
 import { SketchTopbar } from '@datapath/ui/src/primitives/SketchTopbar';
+import { applyTheme } from '@/components/ThemeProvider';
 
 const fetcher = (u: string) => fetch(u).then((r) => r.json());
 
@@ -67,12 +68,19 @@ export default function SettingsPage() {
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       Theme:
-                      <select value={theme} onChange={(e) => setTheme(e.target.value)}
-                        style={{ padding: '4px 8px', border: '1.25px solid var(--ink)', borderRadius: 6 }}>
+                      <select
+                        value={theme}
+                        onChange={(e) => {
+                          setTheme(e.target.value);
+                          applyTheme(e.target.value); // live preview
+                        }}
+                        style={{ padding: '4px 8px', border: '1.25px solid var(--ink)', borderRadius: 6, background: 'var(--paper)', color: 'var(--ink)' }}
+                      >
                         <option value="light">light</option>
                         <option value="paper">paper</option>
                         <option value="dark">dark</option>
                       </select>
+                      <span className="sk-tiny" style={{ color: 'var(--ink-4)' }}>previews live ↑</span>
                     </label>
                   </div>
                 </div>

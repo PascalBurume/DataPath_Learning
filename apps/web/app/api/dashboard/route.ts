@@ -36,7 +36,7 @@ export async function GET() {
   const user = await requireUser();
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  const [cohort, progress, recentPromptLogs, completions] = await Promise.all([
+  const [cohort, progress, recentPromptLogs, completions, recentActivity] = await Promise.all([
     user.cohortId
       ? prisma.cohort.findUnique({ where: { id: user.cohortId } })
       : Promise.resolve(null),
@@ -54,6 +54,54 @@ export async function GET() {
       where: { userId: user.id },
       select: { checkpointId: true, completedAt: true },
     }),
+    (async () => {
+      const [prompts, disclosures, events] = await Promise.all([
+        prisma.promptLog.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 5,
+          select: { id: true, prompt: true, moduleId: true, lessonId: true, createdAt: true, decision: true },
+        }),
+        prisma.disclosure.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 5,
+          select: { id: true, moduleId: true, createdAt: true },
+        }),
+        prisma.progressEvent.findMany({
+          where: { userId: user.id, kind: { in: ["slide_view", "lab_submit", "quiz_submit"] } },
+          orderBy: { createdAt: "desc" },
+          take: 10,
+          select: { id: true, kind: true, moduleId: true, lessonId: true, createdAt: true },
+        }),
+      ]);
+      type ActivityItem = { id: string; kind: string; label: string; sub: string; ts: Date };
+      const items: ActivityItem[] = [
+        ...prompts.map((p) => ({
+          id: `p-${p.id}`,
+          kind: "prompt",
+          label: `"${p.prompt.slice(0, 50)}${p.prompt.length > 50 ? '…' : ''}"`,
+          sub: [p.moduleId, p.lessonId].filter(Boolean).join(" · ") || "gemma",
+          ts: p.createdAt,
+        })),
+        ...disclosures.map((d) => ({
+          id: `d-${d.id}`,
+          kind: "disclosure",
+          label: `Disclosure submitted`,
+          sub: d.moduleId,
+          ts: d.createdAt,
+        })),
+        ...events.map((e) => ({
+          id: `e-${e.id}`,
+          kind: e.kind,
+          label: e.kind === "slide_view" ? `Viewed lesson` : e.kind === "lab_submit" ? `Submitted lab` : `Completed quiz`,
+          sub: [e.moduleId, e.lessonId].filter(Boolean).join(" · ") || "",
+          ts: e.createdAt,
+        })),
+      ];
+      items.sort((a, b) => b.ts.getTime() - a.ts.getTime());
+      return items.slice(0, 8).map((i) => ({ ...i, ts: i.ts.toISOString() }));
+    })(),
   ]);
 
   const week = cohortWeek({ startDate: cohort?.startDate ?? null, weeks: cohort?.weeks ?? 14 });
@@ -201,5 +249,6 @@ export async function GET() {
     nextCheckpoint,
     promptsLast7: progress.totals.aiPromptsLast7,
     totals: progress.totals,
+    recentActivity,
   });
 }

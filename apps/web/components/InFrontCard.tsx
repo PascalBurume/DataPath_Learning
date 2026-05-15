@@ -77,10 +77,10 @@ export function InFrontCard({ inFront }: Props) {
       {peeking && (
         <div className="sk-box dashed" style={{ padding: 8, marginTop: 4, maxHeight: 140, overflowY: 'auto' }}>
           {!promptsData && <div className="sk-tiny">loading…</div>}
-          {promptsData?.module?.prompts?.length === 0 && (
+          {promptsData?.prompts?.length === 0 && (
             <div className="sk-tiny" style={{ color: 'var(--ink-3)' }}>No approved prompts for this module yet.</div>
           )}
-          {promptsData?.module?.prompts?.map((p: any) => (
+          {promptsData?.prompts?.map((p: any) => (
             <div key={p.id} style={{ padding: '4px 0', borderBottom: '1px dashed var(--rule-soft)' }}>
               <div style={{ fontSize: 12, fontWeight: 600 }}>{p.title}</div>
               <div className="sk-tiny" style={{ color: 'var(--ink-3)' }}>{p.body.slice(0, 100)}</div>
