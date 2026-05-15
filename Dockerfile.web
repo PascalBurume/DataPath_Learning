@@ -1,0 +1,27 @@
+FROM node:22-alpine AS base
+
+# Add python3 + bash so we can build the JupyterLite distribution into
+# apps/web/public/jupyterlite/ before Next.js bundles its public assets.
+RUN apk add --no-cache python3 py3-pip py3-virtualenv bash \
+    && corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* ./
+COPY packages/tokens/package.json packages/tokens/
+COPY packages/ui/package.json packages/ui/
+COPY apps/web/package.json apps/web/
+
+RUN pnpm install --frozen-lockfile 2>/dev/null || pnpm install
+
+COPY . .
+
+# Build the in-browser JupyterLite distribution. Failure is non-fatal in dev so
+# the container still boots; the LessonLab component shows a helpful banner.
+RUN pnpm jupyterlite:build || echo "⚠ jupyterlite build skipped (lab will show fallback banner)"
+
+WORKDIR /app/apps/web
+
+EXPOSE 3000
+
+CMD ["pnpm", "dev"]

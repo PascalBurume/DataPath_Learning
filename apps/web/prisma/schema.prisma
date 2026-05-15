@@ -1,0 +1,214 @@
+// DataPath production schema — SQLite + Prisma
+// All curriculum content is ingested from datapath/M*/*.md by prisma/seed.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Cohort {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  code        String       @unique
+  startDate   DateTime?
+  weeks       Int          @default(14)
+  createdAt   DateTime     @default(now())
+  users       User[]
+  checkpoints Checkpoint[]
+}
+
+model Checkpoint {
+  id           String                 @id @default(cuid())
+  cohortId     String
+  cohort       Cohort                 @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  moduleId     String?
+  title        String
+  kind         String                 // "oral" | "project" | "lab" | "checkpoint"
+  dueAt        DateTime
+  durationMin  Int?
+  location     String?
+  mentor       String?
+  prepPrompt   String?
+  createdAt    DateTime               @default(now())
+  completions  CheckpointCompletion[]
+  @@index([cohortId, dueAt])
+}
+
+model CheckpointCompletion {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkpointId  String
+  checkpoint    Checkpoint @relation(fields: [checkpointId], references: [id], onDelete: Cascade)
+  completedAt   DateTime   @default(now())
+  @@unique([userId, checkpointId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  role          String    @default("student")
+  theme         String    @default("light")
+  autoDisclose  Boolean   @default(true)
+  cohortId      String?
+  cohort        Cohort?   @relation(fields: [cohortId], references: [id])
+  createdAt     DateTime  @default(now())
+
+  accounts                Account[]
+  sessions                Session[]
+  progress                ProgressEvent[]
+  prompts                 PromptLog[]
+  disclosures             Disclosure[]
+  labs                    LabSubmission[]
+  checkpointCompletions   CheckpointCompletion[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+model Module {
+  id            String    @id
+  order         Int       @unique
+  title         String
+  subtitle      String
+  aiUseSummary  String
+  unlockDate    DateTime?
+  datasetsJson  String
+  lessons       Lesson[]
+  prompts       Prompt[]
+  quiz          QuizQuestion[]
+}
+
+model Lesson {
+  id          String   @id
+  moduleId    String
+  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  order       Int
+  title       String
+  kind        String
+  aiOff       Boolean  @default(false)
+  body        String
+  slides      Slide[]
+  @@unique([moduleId, order])
+}
+
+model Slide {
+  id        String  @id @default(cuid())
+  lessonId  String
+  lesson    Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  order     Int
+  title     String
+  body      String
+  code      String?
+  language  String?
+  aiOff     Boolean @default(false)
+  @@unique([lessonId, order])
+}
+
+model Prompt {
+  id        String  @id @default(cuid())
+  moduleId  String
+  module    Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  order     Int
+  title     String
+  body      String
+  @@unique([moduleId, order])
+  @@map("PromptTemplate")
+}
+
+model QuizQuestion {
+  id        String  @id @default(cuid())
+  moduleId  String
+  module    Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  order     Int
+  question  String
+  choices   String
+  answer    String
+  kind      String  @default("free")
+  @@unique([moduleId, order])
+}
+
+model ProgressEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId  String?
+  lessonId  String?
+  kind      String
+  payload   String?
+  createdAt DateTime @default(now())
+  @@index([userId, createdAt])
+  @@index([userId, moduleId])
+}
+
+model PromptLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId    String?
+  lessonId    String?
+  prompt      String
+  response    String
+  model       String   @default("gemma4:e2b")
+  rating      Int?
+  flagged     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  @@index([userId, createdAt])
+}
+
+model Disclosure {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId    String
+  body        String
+  promptIds   String
+  createdAt   DateTime @default(now())
+  @@index([userId, moduleId])
+}
+
+model LabSubmission {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId    String
+  notebookJson String
+  passed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  @@index([userId, moduleId])
+}

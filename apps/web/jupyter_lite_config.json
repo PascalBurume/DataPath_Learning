@@ -1,0 +1,19 @@
+{
+  "LiteBuildConfig": {
+    "contents": ["../../datapath"],
+    "output_dir": "public/jupyterlite",
+    "no_unused_shared_packages": true
+  },
+  "PipliteAddon": {
+    "piplite_urls": []
+  },
+  "PyodideAddon": {
+    "preload_packages": [
+      "numpy",
+      "pandas",
+      "matplotlib",
+      "scikit-learn",
+      "scipy"
+    ]
+  }
+}

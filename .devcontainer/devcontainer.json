@@ -1,0 +1,27 @@
+{
+  "name": "DataPath Dev",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "web",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [3001, 8888, 11434],
+  "portsAttributes": {
+    "3001": { "label": "Next.js", "onAutoForward": "openBrowser" },
+    "8888": { "label": "JupyterLab", "onAutoForward": "notify" },
+    "11434": { "label": "Ollama API", "onAutoForward": "silent" }
+  },
+  "postCreateCommand": "corepack enable && pnpm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  }
+}

@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Kalam:wght@300;400;700&family=Cutive+Mono&display=swap');
+
+/* DataPath design tokens — inlined from @datapath/tokens */
+:root {
+  --paper: #f7f4ec;
+  --paper-2: #efeadd;
+  --ink: #1a1814;
+  --ink-2: #3a3530;
+  --ink-3: #6b6258;
+  --ink-4: #9a9087;
+  --rule: #1a1814;
+  --rule-soft: #2a261f;
+  --amber: #c87f1c;
+  --amber-soft: #f0d8a6;
+  --amber-tint: #fbeacc;
+  --aioff: #7a4a44;
+  --aioff-soft: #d6b8b4;
+  --aioff-tint: #ead8d4;
+  --good: #2d6b4d;
+  --good-tint: #d2e3d5;
+  --warn: #b8651c;
+  --think-bg: #f3efe5;
+  --think-rule: #b9b1a4;
+}
+
+@keyframes pulse-think {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+html, body {
+  margin: 0;
+  background: #e9e4d8;
+  font-family: 'Kalam', 'Architects Daughter', 'Comic Sans MS', cursive, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+}
+@media (min-width: 1600px) { html { font-size: 18px; } }
+@media (min-width: 2200px) { html { font-size: 20px; } }
+
+* { box-sizing: border-box; }
+
+button { cursor: pointer; font-family: inherit; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ── Paper texture ── */
+.sk-paper {
+  background: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(0,0,0,0.025) 23px 24px);
+  position: relative;
+  overflow: hidden;
+}
+.sk-paper::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 14px 14px;
+  pointer-events: none;
+}
+
+/* ── Bordered card ── */
+.sk-box {
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  position: relative;
+  background: var(--paper);
+}
+.sk-box.dashed    { border-style: dashed; }
+.sk-box.hoverable:hover { transform: translateY(-2px); box-shadow: 4px 5px 0 0 var(--ink); }
+.sk-box.thin    { border-width: 1px; }
+.sk-box.thick   { border-width: 2px; }
+.sk-box.tilt-l  { transform: rotate(-0.4deg); }
+.sk-box.tilt-r  { transform: rotate(0.4deg); }
+.sk-box.shadow  { box-shadow: 3px 3px 0 0 var(--ink); }
+
+/* ── Buttons ── */
+.sk-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--ink);
+  border-radius: 22px;
+  padding: 5px 14px;
+  background: var(--paper);
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+  cursor: pointer;
+}
+.sk-btn.primary { background: var(--ink); color: var(--paper); }
+.sk-btn.ai      { border-color: var(--amber); background: var(--amber-tint); color: var(--amber); box-shadow: 2px 2px 0 0 var(--amber); }
+.sk-btn.aioff   { border-color: var(--aioff); background: var(--aioff-tint); color: var(--aioff); }
+.sk-btn.ghost   { background: transparent; box-shadow: none; }
+.sk-btn.sm      { padding: 3px 10px; font-size: 12px; border-radius: 14px; box-shadow: 1px 1px 0 0 var(--ink); }
+.sk-btn.xs      { padding: 2px 8px; font-size: 11px; border-radius: 12px; box-shadow: none; }
+
+/* ── Chips ── */
+.sk-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px;
+  padding: 2px 9px;
+  border-radius: 12px;
+  border: 1.25px solid var(--ink);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.sk-chip.ai    { border-color: var(--amber); background: var(--amber-tint); color: var(--amber); }
+.sk-chip.aioff { border-color: var(--aioff); background: var(--aioff-tint); color: var(--aioff); }
+.sk-chip.good  { border-color: var(--good); background: var(--good-tint); color: var(--good); }
+.sk-chip.warn  { border-color: var(--warn); background: #f3dcc4; color: var(--warn); }
+.sk-chip.solid { background: var(--ink); color: var(--paper); }
+.sk-chip.xs    { font-size: 10px; padding: 1px 6px; }
+
+/* ── Squiggly underline ── */
+.sk-squiggle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'><path d='M0 2 Q 2.5 0 5 2 T 10 2 T 15 2 T 20 2' fill='none' stroke='%231a1814' stroke-width='0.8'/></svg>");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 14px 4px;
+  padding-bottom: 4px;
+}
+
+/* ── Dividers ── */
+.sk-divider {
+  height: 0; border: 0;
+  border-top: 1.5px dashed var(--rule);
+  margin: 10px 0;
+}
+.sk-divider.solid { border-top-style: solid; }
+.sk-divider.wave {
+  border: 0; height: 6px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 6'><path d='M0 3 Q 5 0 10 3 T 20 3 T 30 3 T 40 3' fill='none' stroke='%231a1814' stroke-width='1.2'/></svg>");
+  background-repeat: repeat-x;
+}
+
+/* ── Typography ── */
+.sk-h1  { font-family: 'Caveat', 'Kalam', cursive; font-weight: 700; font-size: 2.25rem; line-height: 1; margin: 0; }
+.sk-h2  { font-family: 'Caveat', 'Kalam', cursive; font-weight: 700; font-size: 1.625rem; line-height: 1.05; margin: 0; }
+.sk-h3  { font-weight: 700; font-size: 1rem; margin: 0; letter-spacing: 0.3px; }
+.sk-h4  { font-weight: 700; font-size: 0.8125rem; margin: 0; letter-spacing: 0.4px; text-transform: uppercase; }
+.sk-label { font-size: 0.6875rem; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink-3); }
+.sk-meta  { font-size: 0.75rem; color: var(--ink-3); }
+.sk-body  { font-size: 0.875rem; line-height: 1.45; color: var(--ink-2); }
+.sk-tiny  { font-size: 0.6875rem; color: var(--ink-3); }
+.sk-mono  { font-family: 'Cutive Mono', 'JetBrains Mono', 'Courier New', monospace; font-size: 0.8125rem; line-height: 1.5; }
+
+/* ── Image placeholder ── */
+.sk-photo {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 8px, rgba(0,0,0,0.08) 8px 9px),
+    var(--paper-2);
+  border: 1.25px dashed var(--rule);
+  border-radius: 4px;
+}
+
+/* ── AI-OFF band ── */
+.sk-aioff-band {
+  background:
+    repeating-linear-gradient(135deg, var(--aioff-tint) 0 12px, #e7d2cd 12px 14px);
+  border: 1.5px solid var(--aioff);
+  color: var(--aioff);
+}
+
+/* ── Sidebar rail ── */
+.sk-rail {
+  background: var(--paper-2);
+  border-right: 1.5px solid var(--rule);
+}
+
+/* ── Heatmap cells ── */
+.sk-heat     { display: inline-block; width: 14px; height: 14px; border-radius: 2px; border: 1px solid var(--rule); background: var(--paper); }
+.sk-heat.l1  { background: var(--amber-tint); }
+.sk-heat.l2  { background: var(--amber-soft); }
+.sk-heat.l3  { background: var(--amber); }
+.sk-heat.off { background: var(--aioff-tint); }
+
+/* ── Checkbox ── */
+.sk-check { width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 3px; display: inline-block; vertical-align: -2px; background: var(--paper); }
+.sk-check.on { background: var(--ink); position: relative; }
+.sk-check.on::after { content: "✓"; color: var(--paper); font-size: 11px; position: absolute; left: 1px; top: -3px; }
+
+/* ── Table ── */
+.sk-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sk-table th, .sk-table td { border-bottom: 1.25px dashed var(--rule); padding: 6px 8px; text-align: left; vertical-align: top; }
+.sk-table th { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-2); }
+.sk-table tr:last-child td { border-bottom: none; }
+
+/* ── Margin note ── */
+.sk-note {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--amber);
+  transform: rotate(-1deg);
+  display: inline-block;
+}
+
+.lesson-body h2 {
+  font-family: Caveat, cursive;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+}
+
+.lesson-body h3 {
+  font-family: Caveat, cursive;
+  font-size: 1.625rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+}
