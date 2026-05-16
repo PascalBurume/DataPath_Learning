@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "datapath-web",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "web", "dev"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["apps/web/node_modules/.bin/next", "dev", "--cwd", "apps/web"],
       "port": 3000,
       "autoPort": true
     }

@@ -128,7 +128,7 @@ export async function GET() {
         : m.order === currentNodeOrder
           ? ("current" as const)
           : m.order < currentNodeOrder
-            ? ("current" as const) // rare: current cohort module already 0%; mark as current too
+            ? ("behind" as const) // incomplete but past the cohort calendar position
             : ("locked" as const),
     aiOff: m.aiOff,
   }));

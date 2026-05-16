@@ -1,6 +1,6 @@
 'use client';
 
-export type PathNodeStatus = 'done' | 'current' | 'locked';
+export type PathNodeStatus = 'done' | 'current' | 'behind' | 'locked';
 
 export interface PathNode {
   id: string;
@@ -94,6 +94,7 @@ export function PathView({ nodes, onNodeClick, height = 230 }: Props) {
           const p = positions[i];
           const isCurrent = n.status === 'current';
           const isDone = n.status === 'done';
+          const isBehind = n.status === 'behind';
           const isLocked = n.status === 'locked';
           const r = isCurrent ? 30 : 26;
           const cursor = onNodeClick ? 'pointer' : 'default';
@@ -116,12 +117,24 @@ export function PathView({ nodes, onNodeClick, height = 230 }: Props) {
                   strokeDasharray="4 3"
                 />
               )}
+              {/* Orange dashed ring for behind nodes */}
+              {isBehind && (
+                <circle
+                  key="behind-ring"
+                  r={r + 5}
+                  fill="none"
+                  stroke="var(--warn, #d97706)"
+                  strokeWidth={1.5}
+                  strokeDasharray="3 4"
+                  opacity={0.7}
+                />
+              )}
               {/* Main circle */}
               <circle
                 key="main-circle"
                 r={r}
-                fill={isDone ? 'var(--ink)' : isCurrent ? 'var(--amber-tint)' : 'var(--paper)'}
-                stroke="var(--ink)"
+                fill={isDone ? 'var(--ink)' : isCurrent ? 'var(--amber-tint)' : isBehind ? 'var(--warn-tint, #fffbeb)' : 'var(--paper)'}
+                stroke={isBehind ? 'var(--warn, #d97706)' : 'var(--ink)'}
                 strokeWidth={1.5}
               />
               {/* M-label */}
@@ -191,6 +204,20 @@ export function PathView({ nodes, onNodeClick, height = 230 }: Props) {
                     fill="var(--amber)"
                   >
                     {n.pct}% in
+                  </text>
+                </g>
+              )}
+              {/* "! X% done" note under behind nodes */}
+              {isBehind && (
+                <g key="behind-note" transform={`translate(0 ${r + 36})`}>
+                  <text
+                    textAnchor="middle"
+                    fontFamily="Caveat, cursive"
+                    fontSize={14}
+                    fontWeight={700}
+                    fill="var(--warn, #d97706)"
+                  >
+                    !&nbsp;{n.pct}% done
                   </text>
                 </g>
               )}
