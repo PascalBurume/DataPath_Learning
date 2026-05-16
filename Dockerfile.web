@@ -24,4 +24,6 @@ WORKDIR /app/apps/web
 
 EXPOSE 3000
 
-CMD ["pnpm", "dev"]
+# Regenerate Prisma client (picks up any schema changes from the mounted volume)
+# and apply pending migrations before starting the dev server.
+CMD ["sh", "-c", "pnpm prisma generate && pnpm prisma migrate deploy && pnpm dev"]

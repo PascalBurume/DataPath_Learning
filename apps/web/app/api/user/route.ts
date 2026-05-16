@@ -14,7 +14,7 @@ export async function GET() {
   return NextResponse.json({
     user: {
       id: u.id, email: u.email, name: u.name, role: u.role,
-      theme: u.theme, autoDisclose: u.autoDisclose,
+      theme: u.theme, autoDisclose: u.autoDisclose, nepskinEnabled: u.nepskinEnabled,
       cohort: u.cohort ? { code: u.cohort.code, label: u.cohort.name } : null,
     },
   });
@@ -24,6 +24,7 @@ const Body = z.object({
   name: z.string().min(1).optional(),
   theme: z.enum(["light", "dark", "paper"]).optional(),
   autoDisclose: z.boolean().optional(),
+  nepskinEnabled: z.boolean().optional(),
 });
 
 export async function PATCH(req: Request) {

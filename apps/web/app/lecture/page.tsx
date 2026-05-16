@@ -9,6 +9,7 @@ import { SketchTopbar } from '@datapath/ui/src/primitives/SketchTopbar';
 import { LessonPage } from '@/components/LessonRenderer';
 import { GemmaChatV2 } from '@/components/GemmaChatV2';
 import { LessonLab } from '@/components/LessonLab';
+import { NepskinTrigger } from '@/components/NepskinTrigger';
 
 const fetcher = (u: string) => fetch(u).then((r) => r.json());
 
@@ -28,6 +29,8 @@ function LecturePageContent() {
   const lessonId = explicitLessonId ?? firstLessonId;
 
   const { data } = useSWR<any>(lessonId ? `/api/lessons/${lessonId}` : null, fetcher);
+  const { data: userData } = useSWR<any>('/api/user', fetcher);
+  const nepskinEnabled = userData?.user?.nepskinEnabled ?? true;
   const [chatOpen, setChatOpen] = useState(false);
   const [view, setView] = useState<'lesson' | 'lab'>('lesson');
 
@@ -140,7 +143,9 @@ function LecturePageContent() {
 
           {view === 'lesson' ? (
             <>
-              <LessonPage body={body} aiOff={aiOff} />
+              <NepskinTrigger enabled={nepskinEnabled} aiOff={aiOff} moduleId={lesson.moduleId} lessonId={lesson.id}>
+                <LessonPage body={body} aiOff={aiOff} />
+              </NepskinTrigger>
 
               {/* Try the lab call-out */}
               <div

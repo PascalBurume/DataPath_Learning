@@ -1,0 +1,251 @@
+student_id,major,gpa,sat_score,first_choice,scholarship,year
+1,Mathematics,3.21,1040,0,0,2
+2,Data Science,2.88,1250,1,0,1
+3,Statistics,3.25,1150,1,0,3
+4,Engineering,4.0,1350,1,1,4
+5,Statistics,3.44,1020,1,0,4
+6,Data Science,3.77,1110,0,1,4
+7,Engineering,3.36,890,1,0,2
+8,Economics,3.14,1130,1,0,3
+9,Computer Science,3.36,1070,1,0,4
+10,Data Science,3.34,1320,0,0,3
+11,Mathematics,3.53,1040,1,1,4
+12,Engineering,3.13,1070,1,0,1
+13,Computer Science,2.45,1030,0,0,1
+14,Computer Science,2.37,1150,0,0,1
+15,Statistics,3.33,1510,1,0,4
+16,Engineering,2.54,600,1,0,1
+17,Data Science,3.44,1140,0,0,4
+18,Statistics,3.77,1360,1,1,2
+19,Engineering,2.99,1060,0,0,3
+20,Computer Science,3.71,1240,1,1,3
+21,Data Science,3.23,1360,1,0,2
+22,Data Science,3.11,1100,1,0,1
+23,Engineering,3.14,1030,1,0,3
+24,Statistics,2.68,1320,1,0,4
+25,Engineering,2.62,1240,1,0,1
+26,Mathematics,2.28,1140,0,0,1
+27,Data Science,2.73,1260,1,0,4
+28,Mathematics,4.0,1320,1,1,1
+29,Data Science,2.35,1140,1,0,1
+30,Statistics,2.51,1200,1,0,4
+31,Economics,2.7,1240,0,0,3
+32,Mathematics,2.72,1070,1,0,1
+33,Statistics,3.23,1360,1,0,4
+34,Computer Science,2.79,960,0,0,3
+35,Statistics,3.0,1130,1,0,1
+36,Engineering,2.68,1290,0,0,2
+37,Engineering,2.86,960,1,0,4
+38,Economics,3.07,1310,1,0,3
+39,Economics,3.03,1180,1,0,3
+40,Mathematics,4.0,1390,1,1,2
+41,Engineering,3.09,1260,0,0,1
+42,Engineering,3.0,1120,0,0,3
+43,Mathematics,1.85,1190,0,0,1
+44,Computer Science,3.22,1200,0,0,4
+45,Economics,2.11,1510,0,0,1
+46,Economics,3.38,1170,1,0,1
+47,Mathematics,3.17,1130,1,0,1
+48,Data Science,3.5,1110,1,0,4
+49,Computer Science,2.78,1180,0,0,2
+50,Computer Science,3.11,950,0,0,2
+51,Engineering,3.44,1080,0,0,2
+52,Mathematics,2.64,970,0,0,3
+53,Statistics,3.41,990,0,0,4
+54,Data Science,3.38,1290,1,0,2
+55,Statistics,3.03,1150,1,0,1
+56,Engineering,3.89,1020,0,1,4
+57,Economics,3.36,1120,1,0,2
+58,Mathematics,2.26,1110,1,0,3
+59,Data Science,3.59,1160,1,1,1
+60,Computer Science,2.77,880,1,0,4
+61,Engineering,3.5,950,0,0,4
+62,Engineering,3.25,890,0,0,2
+63,Data Science,1.78,990,1,0,1
+64,Computer Science,3.4,1020,1,0,1
+65,Statistics,2.99,960,1,0,2
+66,Engineering,2.87,1290,1,0,2
+67,Engineering,2.89,1480,1,0,2
+68,Computer Science,3.49,1300,1,0,3
+69,Economics,2.64,1050,1,0,1
+70,Mathematics,3.66,1190,1,1,1
+71,Statistics,2.34,1140,1,0,4
+72,Computer Science,3.25,1040,0,0,2
+73,Computer Science,3.49,1390,1,0,4
+74,Computer Science,3.47,1510,1,0,3
+75,Data Science,3.19,890,0,0,1
+76,Economics,3.0,1410,1,0,3
+77,Engineering,2.83,1040,0,0,4
+78,Economics,2.49,1100,1,0,4
+79,Statistics,2.76,1200,1,0,2
+80,Computer Science,2.62,1430,1,0,1
+81,Statistics,2.54,1200,0,0,2
+82,Statistics,4.0,1220,0,1,1
+83,Economics,2.24,1300,1,0,2
+84,Mathematics,3.66,1330,0,1,4
+85,Data Science,2.48,1240,1,0,3
+86,Engineering,2.59,1330,1,0,4
+87,Engineering,2.58,1040,1,0,3
+88,Mathematics,2.54,840,1,0,1
+89,Computer Science,3.56,1480,1,1,1
+90,Mathematics,3.39,960,1,0,3
+91,Engineering,2.98,1050,1,0,2
+92,Data Science,4.0,1090,1,1,2
+93,Engineering,3.09,1060,1,0,1
+94,Data Science,3.13,1020,1,0,2
+95,Data Science,2.76,1230,1,0,1
+96,Data Science,2.7,1240,1,0,1
+97,Computer Science,2.83,1260,1,0,4
+98,Data Science,3.53,1250,1,1,3
+99,Engineering,3.39,1070,1,0,4
+100,Mathematics,3.75,1070,1,1,4
+101,Data Science,2.74,1350,1,0,3
+102,Engineering,3.39,1060,1,0,2
+103,Mathematics,3.25,1050,1,0,2
+104,Mathematics,3.32,1320,1,0,1
+105,Engineering,2.67,1150,1,0,4
+106,Data Science,2.58,1060,0,0,4
+107,Mathematics,3.37,1060,1,0,2
+108,Computer Science,3.54,1350,1,1,2
+109,Data Science,2.79,1260,0,0,1
+110,Data Science,3.4,1190,1,0,1
+111,Economics,3.7,940,1,1,2
+112,Computer Science,2.92,1190,1,0,4
+113,Engineering,2.38,1110,0,0,1
+114,Engineering,2.44,990,1,0,4
+115,Data Science,2.76,1040,1,0,2
+116,Data Science,2.88,1280,1,0,2
+117,Computer Science,3.08,1370,1,0,1
+118,Data Science,3.09,960,1,0,1
+119,Economics,2.96,980,0,0,3
+120,Computer Science,3.44,1270,1,0,3
+121,Mathematics,2.72,1080,0,0,2
+122,Data Science,3.73,1250,0,1,2
+123,Statistics,3.57,1070,1,1,1
+124,Data Science,3.53,1250,1,1,1
+125,Data Science,2.77,900,1,0,3
+126,Computer Science,3.04,1250,0,0,3
+127,Economics,3.46,770,1,0,1
+128,Mathematics,3.0,1320,1,0,4
+129,Computer Science,2.75,1140,1,0,1
+130,Engineering,2.73,1230,1,0,4
+131,Engineering,2.75,1190,1,0,2
+132,Mathematics,2.52,840,1,0,3
+133,Economics,4.0,1400,0,1,1
+134,Data Science,2.12,1210,0,0,3
+135,Engineering,2.61,1290,0,0,3
+136,Engineering,3.4,1010,1,0,1
+137,Mathematics,2.76,1190,1,0,1
+138,Mathematics,2.92,910,1,0,3
+139,Computer Science,3.3,1180,1,0,2
+140,Computer Science,3.62,980,0,1,3
+141,Mathematics,2.96,1600,0,0,1
+142,Economics,3.56,1260,1,1,1
+143,Computer Science,2.25,1390,0,0,3
+144,Mathematics,2.8,1110,1,0,1
+145,Computer Science,3.35,1220,0,0,1
+146,Data Science,4.0,1310,1,1,1
+147,Data Science,2.62,960,0,0,4
+148,Economics,2.53,1030,0,0,2
+149,Computer Science,3.27,1330,1,0,3
+150,Computer Science,3.13,1110,1,0,3
+151,Computer Science,2.74,1020,1,0,2
+152,Mathematics,2.49,1040,0,0,1
+153,Mathematics,2.84,930,1,0,1
+154,Computer Science,3.36,800,0,0,1
+155,Data Science,2.93,840,0,0,4
+156,Data Science,3.69,1160,1,1,3
+157,Computer Science,3.03,1270,1,0,4
+158,Engineering,3.4,1600,1,0,4
+159,Engineering,3.24,1140,1,0,1
+160,Data Science,2.9,920,1,0,3
+161,Statistics,3.52,1140,1,1,2
+162,Data Science,2.49,1280,1,0,4
+163,Computer Science,2.82,1340,1,0,4
+164,Statistics,2.89,1320,1,0,2
+165,Engineering,3.29,1250,1,0,3
+166,Data Science,3.42,1170,1,0,2
+167,Data Science,2.69,1280,0,0,4
+168,Data Science,2.62,940,1,0,1
+169,Data Science,3.14,790,1,0,2
+170,Mathematics,2.33,1530,0,0,4
+171,Engineering,3.6,1140,0,1,1
+172,Computer Science,2.99,1250,1,0,2
+173,Engineering,2.52,650,0,0,3
+174,Economics,2.51,1430,1,0,3
+175,Computer Science,3.26,1360,0,0,1
+176,Mathematics,3.24,870,1,0,1
+177,Data Science,2.72,1090,1,0,2
+178,Statistics,3.04,1200,0,0,2
+179,Economics,2.54,920,1,0,4
+180,Economics,2.97,1240,1,0,3
+181,Mathematics,3.84,1340,0,1,3
+182,Engineering,4.0,1210,1,1,1
+183,Mathematics,2.99,870,1,0,4
+184,Engineering,3.32,960,1,0,1
+185,Economics,3.3,1130,0,0,4
+186,Engineering,2.24,1110,0,0,4
+187,Computer Science,2.53,1110,1,0,4
+188,Data Science,1.94,1100,1,0,2
+189,Engineering,3.32,830,1,0,1
+190,Computer Science,4.0,1300,1,1,3
+191,Mathematics,3.63,1260,1,1,2
+192,Statistics,3.12,1240,1,0,2
+193,Engineering,3.05,1230,0,0,3
+194,Engineering,2.92,1100,0,0,3
+195,Computer Science,3.63,1040,1,1,2
+196,Statistics,3.21,970,1,0,2
+197,Engineering,3.13,1430,1,0,3
+198,Computer Science,2.55,1150,1,0,1
+199,Mathematics,3.4,850,1,0,3
+200,Statistics,3.03,1140,1,0,4
+201,Data Science,3.3,770,1,0,4
+202,Data Science,3.6,1190,1,1,3
+203,Computer Science,2.28,1180,0,0,2
+204,Engineering,2.95,1050,1,0,4
+205,Data Science,2.88,980,1,0,2
+206,Mathematics,2.84,1250,1,0,4
+207,Mathematics,2.54,1140,0,0,1
+208,Computer Science,2.74,800,0,0,3
+209,Mathematics,2.55,1370,1,0,1
+210,Computer Science,3.51,980,1,1,1
+211,Data Science,3.29,910,1,0,2
+212,Data Science,3.25,1390,1,0,1
+213,Mathematics,2.14,1340,1,0,2
+214,Mathematics,4.0,1070,1,1,4
+215,Computer Science,2.9,920,1,0,3
+216,Data Science,3.97,990,0,1,3
+217,Computer Science,3.47,1070,0,0,4
+218,Data Science,2.98,1370,1,0,2
+219,Computer Science,4.0,1380,0,1,4
+220,Computer Science,3.38,1180,0,0,1
+221,Mathematics,2.99,1270,1,0,1
+222,Economics,2.9,1110,1,0,2
+223,Computer Science,3.62,990,0,1,3
+224,Engineering,2.83,880,1,0,1
+225,Computer Science,2.91,1210,0,0,2
+226,Data Science,2.8,1310,1,0,3
+227,Mathematics,2.72,1060,0,0,4
+228,Computer Science,2.75,1360,1,0,4
+229,Statistics,3.99,1080,0,1,1
+230,Computer Science,3.6,1170,1,1,1
+231,Engineering,3.22,1110,1,0,3
+232,Statistics,2.83,1370,1,0,4
+233,Engineering,2.82,1240,1,0,1
+234,Computer Science,2.92,1140,1,0,3
+235,Data Science,3.99,1160,1,1,1
+236,Engineering,3.25,940,0,0,1
+237,Mathematics,3.47,750,1,0,2
+238,Statistics,3.2,1050,1,0,4
+239,Mathematics,2.66,1120,1,0,3
+240,Statistics,3.15,1250,0,0,2
+241,Statistics,2.56,1120,0,0,3
+242,Data Science,3.7,1070,1,1,2
+243,Economics,2.73,620,0,0,1
+244,Engineering,2.81,1240,0,0,4
+245,Computer Science,3.51,1190,1,1,1
+246,Computer Science,2.75,1300,1,0,4
+247,Engineering,2.99,1150,1,0,4
+248,Statistics,1.78,1360,0,0,3
+249,Economics,2.94,1050,0,0,3
+250,Statistics,3.4,1140,1,0,4

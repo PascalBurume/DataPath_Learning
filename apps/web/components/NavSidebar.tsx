@@ -14,6 +14,7 @@ const NAV: NavItem[] = [
   { k: 'Modules',   g: '☷', href: '/modules' },
   { k: 'Progress',  g: '↗', href: '/progress' },
   { k: 'Resources', g: '✎', href: '/resources' },
+  { k: 'Confusion', g: '?', href: '/errors' },
   { k: 'Settings',  g: '✦', href: '/settings' },
 ];
 

@@ -54,9 +54,10 @@ model User {
   name          String
   passwordHash  String
   role          String    @default("student")
-  theme         String    @default("light")
-  autoDisclose  Boolean   @default(true)
-  cohortId      String?
+  theme          String    @default("light")
+  autoDisclose   Boolean   @default(true)
+  nepskinEnabled Boolean   @default(true)
+  cohortId       String?
   cohort        Cohort?   @relation(fields: [cohortId], references: [id])
   createdAt     DateTime  @default(now())
 
@@ -203,6 +204,21 @@ model Disclosure {
   reflection  String?
   createdAt   DateTime @default(now())
   @@index([userId, moduleId])
+}
+
+model ErrorLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  moduleId  String?
+  lessonId  String?
+  word      String
+  message   String
+  source    String
+  context   String?
+  createdAt DateTime @default(now())
+  @@index([moduleId, createdAt])
+  @@index([word])
+  @@index([userId, createdAt])
 }
 
 model LabSubmission {

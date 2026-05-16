@@ -8,7 +8,7 @@ import { SketchTopbar } from '@datapath/ui/src/primitives/SketchTopbar';
 
 const fetcher = (u: string) => fetch(u).then((r) => r.json());
 
-type Decision = 'accept' | 'edit' | 'reject' | null;
+type Decision = 'accept' | 'edit' | 'reject' | 'nepskin' | null;
 
 export default function DisclosurePage() {
   return (
@@ -449,9 +449,10 @@ type PromptRowProps = {
 };
 
 const DECISIONS: { value: Decision; label: string; icon: string; color: string; bg: string; shadow: string }[] = [
-  { value: 'accept', label: 'accept', icon: '✓', color: 'var(--good)',  bg: 'var(--good-tint)',  shadow: 'var(--good)' },
-  { value: 'edit',   label: 'edited', icon: '✎', color: 'var(--ink-2)', bg: 'var(--paper-2)',    shadow: 'var(--ink-3)' },
-  { value: 'reject', label: 'reject', icon: '✕', color: 'var(--warn)',  bg: '#f3dcc4',           shadow: 'var(--warn)' },
+  { value: 'accept',  label: 'accept',    icon: '✓', color: 'var(--good)',   bg: 'var(--good-tint)', shadow: 'var(--good)' },
+  { value: 'edit',    label: 'edited',    icon: '✎', color: 'var(--ink-2)', bg: 'var(--paper-2)',   shadow: 'var(--ink-3)' },
+  { value: 'reject',  label: 'reject',    icon: '✕', color: 'var(--warn)',   bg: '#f3dcc4',          shadow: 'var(--warn)' },
+  { value: 'nepskin', label: 'visualize', icon: '◈', color: 'var(--amber)', bg: 'var(--amber-tint)', shadow: 'var(--amber)' },
 ];
 
 // Shared pill button base style
@@ -478,6 +479,9 @@ function PromptRow({ index, prompt, onDecision, onVerify, readOnly }: PromptRowP
   const [expanded, setExpanded] = useState(false);
   const dec = prompt.decision;
   const decConfig = DECISIONS.find((d) => d.value === dec);
+  // Visualization entries are auto-generated — decision is always fixed
+  const isNepskin = dec === 'nepskin';
+  const effectiveReadOnly = readOnly || isNepskin;
 
   return (
     <>
@@ -504,9 +508,9 @@ function PromptRow({ index, prompt, onDecision, onVerify, readOnly }: PromptRowP
           </div>
         </td>
 
-        {/* DECISION — locked in step 1 (lab cells), cycler in step 2 */}
+        {/* DECISION — locked in step 1 (lab cells), always locked for visualizations */}
         <td style={{ padding: '8px 6px', textAlign: 'center', verticalAlign: 'middle' }} onClick={(e) => e.stopPropagation()}>
-          {readOnly ? (
+          {effectiveReadOnly ? (
             // Step 1: static pill — clear pending state if null
             dec == null ? (
               <span style={{
@@ -520,11 +524,13 @@ function PromptRow({ index, prompt, onDecision, onVerify, readOnly }: PromptRowP
               }}>
                 · · ·
               </span>
-            ) : (
-              <span style={pillStyle(decConfig!.color, decConfig!.bg, decConfig!.shadow, false)}>
-                <span style={{ fontSize: 10 }}>{decConfig!.icon}</span>
-                {decConfig!.label}
+            ) : decConfig ? (
+              <span style={pillStyle(decConfig.color, decConfig.bg, decConfig.shadow, false)}>
+                <span style={{ fontSize: 10 }}>{decConfig.icon}</span>
+                {decConfig.label}
               </span>
+            ) : (
+              <span style={{ fontSize: 10, color: 'var(--ink-4)' }}>{dec}</span>
             )
           ) : (
             <DecisionCycler value={dec} onChange={onDecision} />

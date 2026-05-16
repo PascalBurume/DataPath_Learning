@@ -12,6 +12,12 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_OLLAMA_URL=http://ollama:11434
+      # Use the host machine's Ollama.app (Metal GPU, full memory).
+      # host.docker.internal resolves to the Mac's IP from inside the container.
+      - OLLAMA_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=gemma4:e2b
+      # Point DB to the mounted project path inside the container
+      - DATABASE_URL=file:/app/apps/web/prisma/dev.db
     depends_on:
       ollama:
         condition: service_healthy
@@ -26,6 +32,7 @@ services:
     volumes:
       - ./datapath:/home/jovyan/course
       - jupyter-work:/home/jovyan/work
+      - ./apps/web/prisma:/home/jovyan/db:ro
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - OLLAMA_BASE_URL=http://ollama:11434
@@ -36,8 +43,13 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    ports:
-      - "${OLLAMA_PORT:-11434}:11434"
+    # No host port mapping — the web and jupyterlab containers reach Ollama
+    # via Docker's internal network (http://ollama:11434). Exposing it on the
+    # host would conflict with a locally-running Ollama.app (which macOS
+    # resolves first via IPv4 when you use 127.0.0.1, but Docker's IPv6
+    # dual-stack listener wins when you use `localhost`).
+    # To reach Ollama from your host for debugging, use:
+    #   docker exec -it <ollama-container> ollama run gemma4:e2b
     volumes:
       - ollama-models:/root/.ollama
     restart: unless-stopped

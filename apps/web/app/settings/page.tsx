@@ -14,11 +14,12 @@ export default function SettingsPage() {
   const u = data?.user;
   const [name, setName] = useState('');
   const [autoDisclose, setAutoDisclose] = useState(true);
+  const [nepskinEnabled, setNepskinEnabled] = useState(true);
   const [theme, setTheme] = useState('light');
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    if (u) { setName(u.name); setAutoDisclose(u.autoDisclose); setTheme(u.theme); }
+    if (u) { setName(u.name); setAutoDisclose(u.autoDisclose); setNepskinEnabled(u.nepskinEnabled ?? true); setTheme(u.theme); }
   }, [u?.id]);
 
   async function save() {
@@ -26,7 +27,7 @@ export default function SettingsPage() {
     const r = await fetch('/api/user', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, autoDisclose, theme }),
+      body: JSON.stringify({ name, autoDisclose, nepskinEnabled, theme }),
     });
     setMsg(r.ok ? 'Saved ✓' : 'Save failed');
     mutate();
@@ -65,6 +66,10 @@ export default function SettingsPage() {
                     <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <input type="checkbox" checked={autoDisclose} onChange={(e) => setAutoDisclose(e.target.checked)} />
                       <span>Auto-log every Gemma prompt to my disclosure ledger</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <input type="checkbox" checked={nepskinEnabled} onChange={(e) => setNepskinEnabled(e.target.checked)} />
+                      <span>Enable Visualizations (select text in lessons to generate diagrams)</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       Theme:
