@@ -1,0 +1,31 @@
+# Dependencies — reinstalled inside the image
+node_modules
+.pnpm-store
+apps/web/node_modules
+packages/*/node_modules
+
+# Build artifacts
+apps/web/.next
+apps/web/tsconfig.tsbuildinfo
+__pycache__
+*.pyc
+
+# Git / IDE
+.git
+.claude
+.vscode
+.idea
+
+# Local DB (seeded fresh inside the container)
+apps/web/prisma/dev.db
+
+# Large book notes (not needed at runtime)
+*.md
+!README.md
+
+# JupyterLite build artifacts
+.venv-jupyterlite
+apps/web/public/jupyterlite
+
+# OS
+.DS_Store
