@@ -8,12 +8,18 @@ import fs from "node:fs";
 import path from "node:path";
 import { requireUser } from "@/lib/auth";
 
+const LANG_HEADERS: Record<string, string> = {
+  fr: "INSTRUCTION PRIORITAIRE : Tu es DataPath Tutor. Réponds ENTIÈREMENT en français — aussi bien dans la balise <think> que dans la balise <answer>. Respecte toutes les règles pédagogiques ci-dessous.\n\n",
+  sw: "MAELEKEZO YA KWANZA: Wewe ni DataPath Tutor. Jibu KABISA kwa Kiswahili — katika vitalu vya <think> na <answer>. Fuata sheria zote za kufundishia zilizo hapa chini.\n\n",
+};
+
 const Body = z.object({
   prompt: z.string().min(1),
   history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string() })).optional(),
   moduleId: z.string().optional(),
   lessonId: z.string().optional(),
   context: z.string().optional(),
+  lang: z.enum(["en", "fr", "sw"]).optional().default("en"),
 });
 
 const SYSTEM_PROMPT_PATH = path.resolve(process.cwd(), "../..", "datapath/AI_SYSTEM/gemma_system_prompt.md");
@@ -55,9 +61,11 @@ export async function POST(req: Request) {
     `Cite the lesson id when relevant. End with one Socratic prompt that nudges the student to verify their understanding.\n` +
     `</answer>`;
 
+  const langHeader = LANG_HEADERS[parsed.data.lang ?? "en"] ?? "";
+  const basePrompt = `${langHeader}${systemPrompt()}`;
   const sys = parsed.data.context
-    ? `${systemPrompt()}\n\n## Lesson context\n${parsed.data.context}\n\n${reasoningProtocol}`
-    : `${systemPrompt()}\n\n${reasoningProtocol}`;
+    ? `${basePrompt}\n\n## Lesson context\n${parsed.data.context}\n\n${reasoningProtocol}`
+    : `${basePrompt}\n\n${reasoningProtocol}`;
   const messages = [
     { role: "system", content: sys },
     ...(parsed.data.history ?? []),

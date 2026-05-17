@@ -92,6 +92,7 @@ export async function streamGemmaChat(opts: {
   moduleId?: string;
   lessonId?: string;
   context?: string;
+  lang?: "en" | "fr" | "sw";
   /** Receives raw tokens (back-compat — full text including tags). */
   onToken?: (t: string) => void;
   /** Receives only tokens inside <think>…</think>. */
@@ -110,6 +111,7 @@ export async function streamGemmaChat(opts: {
       moduleId: opts.moduleId,
       lessonId: opts.lessonId,
       context: opts.context,
+      lang: opts.lang ?? "en",
     }),
     signal: opts.signal,
   });

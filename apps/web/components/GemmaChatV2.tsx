@@ -6,6 +6,27 @@ import { streamGemmaChat, type ChatMessage } from '@/lib/gemma/client';
 import { ThinkingBlock } from '@datapath/ui/src/primitives/ThinkingBlock';
 import { MarkdownView } from '@datapath/ui/src/primitives/MarkdownView';
 
+type Lang = 'en' | 'fr' | 'sw';
+const LANGS: { code: Lang; label: string; title: string }[] = [
+  { code: 'en', label: 'EN', title: 'English' },
+  { code: 'fr', label: 'FR', title: 'Français' },
+  { code: 'sw', label: 'SW', title: 'Kiswahili' },
+];
+
+const STORAGE_KEY = 'datapath_tutor_lang';
+
+function useLang(): [Lang, (l: Lang) => void] {
+  const [lang, setLangState] = useState<Lang>(() => {
+    if (typeof window === 'undefined') return 'en';
+    return (localStorage.getItem(STORAGE_KEY) as Lang) ?? 'en';
+  });
+  function setLang(l: Lang) {
+    localStorage.setItem(STORAGE_KEY, l);
+    setLangState(l);
+  }
+  return [lang, setLang];
+}
+
 type Props = {
   /** Optional system context (e.g. current lesson summary). */
   context?: string;
@@ -43,6 +64,7 @@ export function GemmaChatV2({ context, aiOff, lessonRef, moduleId }: Props) {
   const [input, setInput] = useState('');
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lang, setLang] = useLang();
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,6 +105,7 @@ export function GemmaChatV2({ context, aiOff, lessonRef, moduleId }: Props) {
         prompt: text,
         history,
         context,
+        lang,
         onThinkToken: (t) => {
           setMessages((arr) => {
             const copy = [...arr];
@@ -153,6 +176,39 @@ export function GemmaChatV2({ context, aiOff, lessonRef, moduleId }: Props) {
         <span className="sk-tiny" style={{ color: 'var(--ink-4)', marginLeft: 4 }}>
           reasoning · best-effort
         </span>
+        <div
+          style={{
+            display: 'flex',
+            gap: 2,
+            marginLeft: 8,
+            background: 'var(--paper-2, #f5f2eb)',
+            border: '1px solid var(--rule)',
+            borderRadius: 6,
+            padding: 2,
+          }}
+        >
+          {LANGS.map(({ code, label, title }) => (
+            <button
+              key={code}
+              title={title}
+              onClick={() => setLang(code)}
+              disabled={streaming}
+              style={{
+                fontSize: 11,
+                fontWeight: lang === code ? 700 : 400,
+                padding: '2px 7px',
+                border: 'none',
+                borderRadius: 4,
+                cursor: streaming ? 'not-allowed' : 'pointer',
+                background: lang === code ? 'var(--ink)' : 'transparent',
+                color: lang === code ? 'var(--paper, #fff)' : 'var(--ink-3)',
+                transition: 'background 0.15s, color 0.15s',
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         {lessonRef && (
           <span className="sk-tiny" style={{ marginLeft: 'auto' }}>
             {/* lessonRef is a DB id like "m3-l1" — display it as "L3.1" */}
