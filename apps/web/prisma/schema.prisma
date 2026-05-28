@@ -231,3 +231,14 @@ model LabSubmission {
   createdAt   DateTime @default(now())
   @@index([userId, moduleId])
 }
+
+model LessonTranslation {
+  id        String   @id @default(cuid())
+  lessonId  String
+  lang      String
+  body      String
+  model     String   @default("gemma4:e2b")
+  createdAt DateTime @default(now())
+  @@unique([lessonId, lang])
+  @@index([lessonId])
+}

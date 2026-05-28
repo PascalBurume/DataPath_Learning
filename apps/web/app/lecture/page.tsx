@@ -147,7 +147,7 @@ function LecturePageContent() {
           {view === 'lesson' ? (
             <>
               <NepskinTrigger enabled={nepskinEnabled} aiOff={aiOff} moduleId={lesson.moduleId} lessonId={lesson.id}>
-                <LessonPage body={body} aiOff={aiOff} />
+                <LessonPage body={body} aiOff={aiOff} lessonId={lesson.id} />
               </NepskinTrigger>
 
               {/* Try the lab call-out */}
@@ -206,7 +206,7 @@ function LecturePageContent() {
               top: 0,
               right: 0,
               bottom: 0,
-              width: 480,
+              width: 'min(480px, 100vw)',
               borderLeft: '1.5px solid var(--rule)',
               display: 'flex',
               flexDirection: 'column',
