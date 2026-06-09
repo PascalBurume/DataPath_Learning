@@ -14,7 +14,13 @@ RUN conda create -n ds-gemma-course python=3.11 -y && \
     conda run -n ds-gemma-course pip install \
         ollama \
         ipywidgets \
-        nbformat && \
+        nbformat \
+        requests \
+        plotly \
+        pandera \
+        joblib \
+        faiss-cpu \
+        sentence-transformers && \
     conda run -n ds-gemma-course python -m ipykernel install --name ds-gemma-course --display-name "DataPath (Python 3.11)"
 
 ENV PATH /opt/conda/envs/ds-gemma-course/bin:$PATH

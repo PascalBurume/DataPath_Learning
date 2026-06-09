@@ -20,6 +20,7 @@ export async function GET(req: Request) {
 const Body = z.object({
   prompt: z.string().min(1),
   response: z.string(),
+  reasoning: z.string().optional(),
   moduleId: z.string().optional(),
   lessonId: z.string().optional(),
   model: z.string().optional(),

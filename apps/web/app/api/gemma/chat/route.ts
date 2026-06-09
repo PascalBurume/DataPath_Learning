@@ -7,6 +7,7 @@ import { z } from "zod";
 import fs from "node:fs";
 import path from "node:path";
 import { requireUser } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
 const LANG_HEADERS: Record<string, string> = {
   fr: "INSTRUCTION PRIORITAIRE : Tu es DataPath Tutor. Réponds ENTIÈREMENT en français — aussi bien dans la balise <think> que dans la balise <answer>. Respecte toutes les règles pédagogiques ci-dessous.\n\n",
@@ -41,6 +42,45 @@ export async function POST(req: Request) {
   if (!user) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401 });
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return new Response(JSON.stringify({ error: parsed.error.flatten() }), { status: 400 });
+
+  // Server-side [AI-OFF] enforcement (defense-in-depth): even if the UI is
+  // bypassed, refuse to generate help for a lesson flagged aiOff. This makes
+  // the responsible-AI guardrail a real server contract, not just UI chrome.
+  if (parsed.data.lessonId) {
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: parsed.data.lessonId },
+      select: { aiOff: true },
+    });
+    if (lesson?.aiOff) {
+      const refusal =
+        `<think>\n` +
+        `This lesson is marked [AI-OFF]. The student must reason through it unaided, so I will ` +
+        `not provide the solution — I'll explain why and point them back to their own attempt.\n` +
+        `</think>\n` +
+        `<answer>\n` +
+        `🔒 **This cell is [AI-OFF].** It's assessed on your own reasoning, so the tutor won't ` +
+        `help here. Attempt it yourself first — then come back to Gemma for the underlying ` +
+        `concepts once you've made your own attempt.\n` +
+        `</answer>`;
+      const enc = new TextEncoder();
+      const s = new ReadableStream({
+        start(controller) {
+          for (const tok of refusal.match(/.{1,32}/gs) ?? [refusal]) {
+            controller.enqueue(enc.encode(JSON.stringify({ token: tok }) + "\n"));
+          }
+          controller.enqueue(enc.encode(JSON.stringify({ done: true, aiOff: true }) + "\n"));
+          controller.close();
+        },
+      });
+      return new Response(s, {
+        headers: {
+          "Content-Type": "application/x-ndjson; charset=utf-8",
+          "Cache-Control": "no-cache, no-transform",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    }
+  }
 
   // Two-phase reasoning protocol — instruct the model to emit a short
   // first-person planning trace inside <think>…</think>, then the final
