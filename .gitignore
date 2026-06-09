@@ -13,3 +13,6 @@ coverage/
 storybook-static/
 .venv-jupyterlite/
 apps/web/public/jupyterlite/
+
+# Claude Code session worktrees (never track or scan)
+.claude/worktrees/
