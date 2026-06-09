@@ -40,7 +40,7 @@ datapath/
 ### Option A — Open WebUI (recommended)
 1. Open WebUI → Settings → System Prompt
 2. Paste the contents of `AI_SYSTEM/gemma_system_prompt.md`
-3. Set model to `gemma4n` (or your Ollama model name)
+3. Set model to `gemma4:e2b` (or your Ollama model name)
 4. Save as the default system prompt for the course workspace
 
 ### Option B — Ollama Modelfile
@@ -49,7 +49,7 @@ datapath/
 cat AI_SYSTEM/gemma_system_prompt.md > /tmp/datapath_system.txt
 
 cat > Modelfile <<EOF
-FROM gemma4n
+FROM gemma4:e2b
 SYSTEM """
 $(cat /tmp/datapath_system.txt)
 """
@@ -67,7 +67,7 @@ SYSTEM_PROMPT = open("AI_SYSTEM/gemma_system_prompt.md").read()
 
 def ask_tutor(user_message, history=[]):
     payload = {
-        "model": "gemma4n",
+        "model": "gemma4:e2b",
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             *history,

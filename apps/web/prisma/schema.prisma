@@ -185,6 +185,7 @@ model PromptLog {
   lessonId    String?
   prompt      String
   response    String
+  reasoning   String?
   model       String   @default("gemma4:e2b")
   rating      Int?
   flagged     Boolean  @default(false)

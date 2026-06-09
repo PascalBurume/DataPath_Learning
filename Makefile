@@ -9,8 +9,10 @@ down:
 logs:
 	docker compose logs -f
 
+# Pull the tutor model into the ollama container. Must match OLLAMA_MODEL in
+# docker-compose.yml and the app/notebooks (canonical tag: gemma4:e2b).
 pull-gemma:
-	docker compose exec ollama ollama pull gemma3:4b
+	docker compose exec ollama ollama pull gemma4:e2b
 
 ollama-up:
 	docker compose up -d ollama

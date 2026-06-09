@@ -567,7 +567,7 @@ function DisclosurePageContent() {
 
 type PromptRowProps = {
   index: number;
-  prompt: { id: string; prompt: string; response: string; createdAt: string; lessonId?: string; decision: Decision; verified: boolean };
+  prompt: { id: string; prompt: string; response: string; reasoning?: string | null; createdAt: string; lessonId?: string; decision: Decision; verified: boolean };
   onDecision: (d: Decision) => void;
   onVerify: (v: boolean) => void;
   /** When true only decision cycling is locked; verify is always interactive */
@@ -702,6 +702,25 @@ function PromptRow({ index, prompt, onDecision, onVerify, readOnly }: PromptRowP
         <tr style={{ background: 'var(--paper-2)' }}>
           <td style={{ padding: '0 0 8px', borderBottom: '1px dashed var(--rule)' }} />
           <td colSpan={3} style={{ padding: '4px 8px 10px', borderBottom: '1px dashed var(--rule)' }}>
+            {prompt.reasoning ? (
+              <div style={{
+                fontSize: 10.5,
+                fontStyle: 'italic',
+                color: 'var(--ink-3)',
+                whiteSpace: 'pre-wrap',
+                maxHeight: 90,
+                overflowY: 'auto',
+                background: 'var(--paper)',
+                border: '1px dashed var(--amber)',
+                padding: '6px 10px',
+                borderRadius: 4,
+                lineHeight: 1.5,
+                marginBottom: 6,
+              }}>
+                <span style={{ fontStyle: 'normal', fontWeight: 600, color: 'var(--amber)' }}>Gemma&rsquo;s reasoning&nbsp;·&nbsp;</span>
+                {prompt.reasoning.slice(0, 400)}{prompt.reasoning.length > 400 ? '…' : ''}
+              </div>
+            ) : null}
             <div style={{
               fontSize: 11,
               color: 'var(--ink-2)',
